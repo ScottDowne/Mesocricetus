@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{2deb3ad0-2336-410d-a7c4-37a273d34508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{fcf1a708-7e1a-4c46-9ede-67733c8afbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Window API">
+      <UniqueIdentifier>{98f99292-9f3c-4cb0-9ae6-e49ac6190da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Direct API">
+      <UniqueIdentifier>{e4803dc3-b914-45cd-8c25-7c6599c993b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\Model">
+      <UniqueIdentifier>{4eebd17e-6234-411d-9043-c60d98c4db61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\Direct API">
+      <UniqueIdentifier>{29995979-c3f3-4c62-86e4-d9e107f5723b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces\Window API">
+      <UniqueIdentifier>{5d90bf5c-5f14-4a71-948c-2c7bfef48f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{28eee22b-97ef-434e-840e-8b97b10a9324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Direct API">
+      <UniqueIdentifier>{53979672-144c-4459-805a-3724cca55937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Window API">
+      <UniqueIdentifier>{fbfb7971-2d0b-405a-9fb5-ba3a3feac732}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="APILight.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="APITexture.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="APISound.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundCard.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDialog.cpp">
+      <Filter>Source Files\Window API</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Window API</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Design.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="APIText.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="Entry.cpp">
+      <Filter>Source Files\Window API</Filter>
+    </ClCompile>
+    <ClCompile Include="APIGraphic.cpp">
+      <Filter>Source Files\Direct API</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Coordinator.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Configuration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathDeclarations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathDefinitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iContext.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iEngine.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iUtilities.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="APILight.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="APITexture.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="APISound.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSettings.h">
+      <Filter>Header Files\Window API</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Window API</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDialog.h">
+      <Filter>Header Files\Window API</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Design.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSettings.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSystem.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundCard.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iAPILight.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iAPITexture.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iAPISound.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iInput.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iDisplay.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iWindow.h">
+      <Filter>Interfaces\Window API</Filter>
+    </ClInclude>
+    <ClInclude Include="iUserDialog.h">
+      <Filter>Interfaces\Window API</Filter>
+    </ClInclude>
+    <ClInclude Include="iSoundCard.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iCamera.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iDesign.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iFrame.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iLight.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iObject.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iSound.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iText.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iTexture.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iAPIText.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="APIText.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iAPIGraphic.h">
+      <Filter>Interfaces\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="iGraphic.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="APIGraphic.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinator.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="iCoordinator.h">
+      <Filter>Interfaces\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectAPISettings.h">
+      <Filter>Header Files\Direct API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dialog.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
