@@ -13,7 +13,7 @@
 
 // Dialog Box Template for IDD_DLG
 //
-IDD_DLG DIALOGEX 200, 100, 200, 290
+IDD_DLG DIALOGEX 200, 100, 200, 320
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION DLG_NAME
 FONT 8, "MS Sans Serif", 0, 0, 0x0
@@ -43,5 +43,6 @@ BEGIN
 	LTEXT           "Source License (TPL).  For the full text, see ../Licenses.txt", IDC_STATIC, 8, 250, 200, 10   // DO NOT REMOVE WITHOUT WRITTEN PERMISSION
 	LTEXT           "Audio clips are redistributed under Creative Commons ", IDC_STATIC, 8, 265, 200, 10   // DO NOT REMOVE WITHOUT WRITTEN PERMISSION
 	LTEXT           "Sampling Plus 1.0 licenses.  For full text, see ../Licenses.txt", IDC_STATIC, 8, 275, 200, 10 // DO NOT REMOVE WITHOUT WRITTEN PERMISSION
+	LTEXT           "Mesocricetus team: Grace Batumbya", IDC_STATIC, 8, 290, 200, 10
 					// Insert other credits here and expand the depth of the dialog box to suit
 END
