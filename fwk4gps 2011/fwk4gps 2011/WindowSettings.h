@@ -38,11 +38,11 @@
 // Window captions
 //
 #if Z_AXIS == NEAR_TO_FAR
-#define WND_NAME L"fwk4gps (GAM666/DPS901 - Z Axis Near to Far)"
+#define WND_NAME L"Mesocricetus - fwk4gps (GAM666/DPS901 - Z Axis Near to Far)"
 #elif Z_AXIS == FAR_TO_NEAR
-#define WND_NAME L"fwk4gps (GAM666/DPS901 - Z Axis Far to Near)"
+#define WND_NAME L"Mesocricetus - fwk4gps (GAM666/DPS901 - Z Axis Far to Near)"
 #endif
-#define DLG_NAME L"Configure fwk4gps - GAM666/DPS901"
+#define DLG_NAME L"Mesocricetus - Configure fwk4gps - GAM666/DPS901"
 
 // Window styles
 //
