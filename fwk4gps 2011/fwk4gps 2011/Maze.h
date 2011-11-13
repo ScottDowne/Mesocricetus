@@ -1,6 +1,6 @@
 const int MAZE_ARRAY_ROW = 20;
 const int MAZE_ARRAY_COL = 20;
-const int MAZE_ARRAY[MAZE_ARRAY_COL][MAZE_ARRAY_ROW] = 
+int MAZE_ARRAY[][MAZE_ARRAY_ROW] = 
 { 
    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},
    {0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0},

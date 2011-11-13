@@ -7,7 +7,7 @@
  * copyright (c) 2011 Chris Szalwinski 
  * distributed under TPL - see ../Licenses.txt
  */
-
+#include <list>
 #include "iContext.h"        // for the Context Interface
 #include "iText.h"           // for the Text Interface
 #include "iSound.h"          // for the Sound Interface
@@ -101,6 +101,9 @@ Design::Design(iContext* c) : context(c) {
     locallState       = NULL;
     localrState       = NULL;
 
+    //maze
+    maze = NULL;
+
     // reference time
 	lastUpdate = 0;
 }
@@ -167,6 +170,20 @@ void Design::initialize(int now) {
     Colour turquoise(0, 0.8f, 0.6f);
     Colour black(0, 0, 0);
 
+    Reflectivity greyish = Reflectivity(grey);
+
+    // maze ---------------------------------------------------------
+
+    std::list<iGraphic *> mazeGraphics = CreateMaze(MAZE_ARRAY, MAZE_ARRAY_COL, MAZE_ARRAY_ROW);
+
+    maze = new std::list<iObject *>();
+    std::list<iGraphic *>::iterator mazeGraphicsItr = mazeGraphics.begin();
+
+    for (std::list<iGraphic *>::iterator itr = mazeGraphics.begin(); itr != mazeGraphics.end(); itr++)
+    {
+       maze->push_back(CreateObject(*itr, &greyish));
+    }
+
 	// create textures
 	iTexture* checkbmp = CreateTexture(L"check.bmp");
 	iTexture* checktga = CreateTexture(L"check.tga");
@@ -180,7 +197,7 @@ void Design::initialize(int now) {
      50, 10, 100 * MODEL_Z_AXIS);
     iGraphic* grid  = CreateGrid(-25, 0, 25, 10);
 
-    Reflectivity greyish = Reflectivity(grey);
+    
     rollRight = CreateObject(box, &greyish);
 	rollRight->attach(checkdsy);
     rollRight->translate(20, -20, 40 * MODEL_Z_AXIS);
@@ -606,6 +623,7 @@ void Design::render() {
             localrState->set(localr->isOn() ? TEXT_ON : TEXT_OFF);
             localrState->draw();
         }
+        
         display->endDraw();
     }
     display->endDrawFrame();

@@ -281,7 +281,7 @@
     <ClInclude Include="DirectAPISettings.h">
       <Filter>Header Files\Direct API</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\Grace%27s Documents\School\Fall2011\DPS901\Assignment\Mesocricetus\fwk4gps 2011\fwk4gps 2011\Maze.h">
+    <ClInclude Include="Maze.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
