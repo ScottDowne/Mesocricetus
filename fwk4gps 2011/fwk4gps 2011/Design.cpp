@@ -174,98 +174,84 @@ void Design::initialize(int now) {
 
     // maze ---------------------------------------------------------
 
-   int left, right, back, front;
+    int left, right, back, front;
 
-   for (int y = 0; y < MAZE_ARRAY_COL; y++) {
+    for (int y = 0; y < MAZE_ARRAY_COL; y++) {
 
-      for (int x = 0; x < MAZE_ARRAY_ROW; x++) {
+       for (int x = 0; x < MAZE_ARRAY_ROW; x++) {
       
-         if ( MAZE_ARRAY[y][x] == 0) {
+          if ( MAZE_ARRAY[y][x] == 0) {
          
-            left = right = back = front = 0;
+             left = right = back = front = 0;
 
-            if (x == 0 || MAZE_ARRAY[y][x-1] > 0) {
+             if (x == 0 || MAZE_ARRAY[y][x-1] > 0) {
             
-               left = 1;
-            }
+                left = 1;
+             }
 
-            if (x == MAZE_ARRAY_COL-1 || MAZE_ARRAY[y][x+1] > 0) {
+             if (x == MAZE_ARRAY_COL-1 || MAZE_ARRAY[y][x+1] > 0) {
             
-               right = 1;
-            }
+                right = 1;
+             }
 
-            if (y == 0 || MAZE_ARRAY[y+1][x] > 0) {
+             if (y == 0 || MAZE_ARRAY[y+1][x] > 0) {
             
-               back = 1;
-            }
+                back = 1;
+             }
 
-            if (y == MAZE_ARRAY_ROW-1 || MAZE_ARRAY[y+1][x] > 0) {
+             if (y == MAZE_ARRAY_ROW-1 || MAZE_ARRAY[y+1][x] > 0) {
             
-               front = 1;
-            }
+                front = 1;
+             }
 
-            //primitiveSets.push_back(CreateBox(x, colCount - y, 0, x+1, (colCount - y) + 1, 1,
-            //                                  front, right, back, left, 0, 1));
-			CreateObject(CreateBox(x, 0, MAZE_ARRAY_COL - y, x+1, 1, (MAZE_ARRAY_COL - y) + 1, front, right, back, left, 0, 1), &greyish);
-         }
-         else
-         {
-            //primitiveSets.push_back(CreateBox(x, colCount - y - 1, 0, x+1, (colCount - y) + 1 - 1, 1,
-            //                                  0, 0, 0, 0, 0, 1));
-			 CreateObject(CreateBox(x, -1, MAZE_ARRAY_COL - y, x+1, 0, (MAZE_ARRAY_COL - y) + 1, 0, 0, 0, 0, 0, 1), &greyish);
-         }
- 
-      }
-   }
+		     CreateObject(CreateBox(x, 0, MAZE_ARRAY_COL - y, x+1, 1, (MAZE_ARRAY_COL - y) + 1, front, right, back, left, 0, 1), &greyish);
+          }
+          else {
 
-    /*std::list<iGraphic *> mazeGraphics = CreateMaze(MAZE_ARRAY, MAZE_ARRAY_COL, MAZE_ARRAY_ROW);
-
-    maze = new std::list<iObject *>();
-    std::list<iGraphic *>::iterator mazeGraphicsItr = mazeGraphics.begin();
-
-    for (std::list<iGraphic *>::iterator itr = mazeGraphics.begin(); itr != mazeGraphics.end(); itr++)
-    {
-       maze->push_back(CreateObject(*itr, &greyish));
-    }*/
+		     CreateObject(CreateBox(x, -1, MAZE_ARRAY_COL - y, x+1, 0, (MAZE_ARRAY_COL - y) + 1, 0, 0, 0, 0, 0, 1), &greyish);
+          }
+          
+       }
+    }
 
 	// create textures
-	iTexture* checkbmp = CreateTexture(L"check.bmp");
-	iTexture* checktga = CreateTexture(L"check.tga");
-	iTexture* checkdsy = CreateTexture(L"daisy.bmp");
-    iTexture* clouds   = CreateTexture(L"clouds.png");
+	//iTexture* checkbmp = CreateTexture(L"check.bmp");
+	//iTexture* checktga = CreateTexture(L"check.tga");
+	//iTexture* checkdsy = CreateTexture(L"daisy.bmp");
+    //iTexture* clouds   = CreateTexture(L"clouds.png");
 
     // create vertex lists
-    iGraphic* box   = CreateBox(-10, -10, -10 * MODEL_Z_AXIS, 
-     10, 10, 10 * MODEL_Z_AXIS);
-    iGraphic* plate = CreateBox(-50, -10, 0 * MODEL_Z_AXIS, 
-     50, 10, 100 * MODEL_Z_AXIS);
-    iGraphic* grid  = CreateGrid(-25, 0, 25, 10);
+    //iGraphic* box   = CreateBox(-10, -10, -10 * MODEL_Z_AXIS, 
+    // 10, 10, 10 * MODEL_Z_AXIS);
+    //iGraphic* plate = CreateBox(-50, -10, 0 * MODEL_Z_AXIS, 
+    // 50, 10, 100 * MODEL_Z_AXIS);
+    //iGraphic* grid  = CreateGrid(-25, 0, 25, 10);
 
     
-    rollRight = CreateObject(box, &greyish);
-	rollRight->attach(checkdsy);
-    rollRight->translate(20, -20, 40 * MODEL_Z_AXIS);
-    rollRight->setPlane(Vector(-1,0,0), 10);
+    //rollRight = CreateObject(box, &greyish);
+	//rollRight->attach(checkdsy);
+    //rollRight->translate(20, -20, 40 * MODEL_Z_AXIS);
+    //rollRight->setPlane(Vector(-1,0,0), 10);
 
-    Reflectivity greenish = Reflectivity(Colour(0.1f, 0.8f, 0.1f, 0.5f));
-    rollLeft = CreateObject(box, &greenish);
-	rollLeft->attach(checktga);
-    rollLeft->translate(-23, 13, 30 * MODEL_Z_AXIS);
-    rollLeft->setRadius(17.8f);
-    objectCamera->attachTo(rollLeft);
+    //Reflectivity greenish = Reflectivity(Colour(0.1f, 0.8f, 0.1f, 0.5f));
+    //rollLeft = CreateObject(box, &greenish);
+	//rollLeft->attach(checktga);
+    //rollLeft->translate(-23, 13, 30 * MODEL_Z_AXIS);
+    //rollLeft->setRadius(17.8f);
+    //objectCamera->attachTo(rollLeft);
 
-    Reflectivity bluish = Reflectivity(Colour(0.0f, 0.1f, 0.9f));
-    iObject* floor = CreateObject(plate, &bluish);
-	floor->attach(checkdsy, TEX_MIN_ANISOTROPIC | TEX_MAG_ANISOTROPIC);
-	floor->translate(-10, FLOOR - 13, 180 * MODEL_Z_AXIS);
+    //Reflectivity bluish = Reflectivity(Colour(0.0f, 0.1f, 0.9f));
+    //iObject* floor = CreateObject(plate, &bluish);
+	//floor->attach(checkdsy, TEX_MIN_ANISOTROPIC | TEX_MAG_ANISOTROPIC);
+	//floor->translate(-10, FLOOR - 13, 180 * MODEL_Z_AXIS);
 
-    Reflectivity redisher = Reflectivity(Colour(0.9f, 0.1f, 0.1f));
-    spinTop = CreateObject(box, &redisher);
-	spinTop->attach(checkbmp, TEX_MIN_ANISOTROPIC | TEX_MAG_ANISOTROPIC);
-    spinTop->translate(-10, 30, 50 * MODEL_Z_AXIS);
-	spinTop->rotatex(1.57f * MODEL_Z_AXIS);
+    //Reflectivity redisher = Reflectivity(Colour(0.9f, 0.1f, 0.1f));
+    //spinTop = CreateObject(box, &redisher);
+	//spinTop->attach(checkbmp, TEX_MIN_ANISOTROPIC | TEX_MAG_ANISOTROPIC);
+    //spinTop->translate(-10, 30, 50 * MODEL_Z_AXIS);
+	//spinTop->rotatex(1.57f * MODEL_Z_AXIS);
 
-    Reflectivity whiteish = Reflectivity(Colour(0.9f, 0.9f, 0.9f));
+    //Reflectivity whiteish = Reflectivity(Colour(0.9f, 0.9f, 0.9f));
     //iObject* xz = CreateObject(grid, &whiteish);
     //xz->setRadius(71);
     //iObject* xy = Clone(xz);
@@ -307,7 +293,7 @@ void Design::initialize(int now) {
 	// audio ------------------------------------------------------------------
     
     // create background sound
-	if (context->get(GF_SNDFILE, SND_BKGRD))
+	/*if (context->get(GF_SNDFILE, SND_BKGRD))
 		background = CreateSound(context->get(GF_SNDFILE, SND_BKGRD), 
          GLOBAL_SOUND, true, false);
 
@@ -337,7 +323,7 @@ void Design::initialize(int now) {
 		objectSnd = CreateSound(context->get(GF_SNDFILE, SND_OBJECT), 
          MOBILE_SOUND, true, true, 90);
         objectSnd->attachTo(rollRight);
-    }
+    }*/
 
     // Heads Up Display -------------------------------------------------------
 
@@ -424,7 +410,7 @@ void Design::reset(int now) {
     coordinator->reset(now);
 
 	// audio ------------------------------------------------------------------
-    
+    /*
 	// change background sound
 	if (background && context->get(GF_SNDFILE, SND_BKGRD) && 
 	 strcmp(context->get(GF_SNDFILE, SND_BKGRD), background->relFileName()))
@@ -464,7 +450,7 @@ void Design::reset(int now) {
 	else if (!objectSnd && context->get(GF_SNDFILE, SND_OBJECT)) 
 		objectSnd = CreateSound(context->get(GF_SNDFILE, SND_OBJECT), 
          MOBILE_SOUND, true, true, 90);
-
+	*/
 	// reset reference time ---------------------------------------------------
     //
     lastUpdate = now;
@@ -522,7 +508,7 @@ void Design::update(int now) {
         dw -= delta;
 
 	// adjust the boxes' positions and orientations for user input
-    if (rollRight) 
+    /*if (rollRight) 
 	    rollRight->rotatex(dr * ROT_SPEED + CONSTANT_ROLL);
     if (rollLeft) 
 	    rollLeft->rotatex(dr * ROT_SPEED + CONSTANT_ROLL);
@@ -531,7 +517,7 @@ void Design::update(int now) {
     if (ds && rollLeft)
         rollLeft->rotatey(ds * ROT_SPEED);
     if (dw && spotLight)
-        spotLight->rotatex(dw * ROT_SPEED);
+        spotLight->rotatex(dw * ROT_SPEED);*/
     
     // clone object, sound, light - restrict to one clone each 
     static bool co = true;
@@ -552,7 +538,7 @@ void Design::update(int now) {
         cs = false;
         (cloneSound = Clone(objectSnd))->translate(-60, 0, 0);
     }
-
+	/*
     // respond to collision with left object
     if (collision(camera, rollLeft) && spotLight)
         spotLight->toggle(now);
@@ -560,7 +546,7 @@ void Design::update(int now) {
     // respond to collision with right object
     if (collision(camera, rollRight) && distantLight)
         distantLight->toggle(now);
-
+	*/
     // reference time
     lastUpdate = now;
 }
