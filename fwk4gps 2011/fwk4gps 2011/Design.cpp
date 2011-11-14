@@ -8,6 +8,8 @@
  * distributed under TPL - see ../Licenses.txt
  */
 #include <list>
+#include <cstdlib>
+#include <ctime>
 #include "iContext.h"        // for the Context Interface
 #include "iText.h"           // for the Text Interface
 #include "iSound.h"          // for the Sound Interface
@@ -95,6 +97,72 @@ bool Design::setup(void* hwnd) {
 
     return rc;
 }
+//declare local constants
+/*const int MIN = 5;//the minimum allowable value
+const int MAX = 20;//the maximum allowable value
+const int RANGE_SIZE = (MAX+1) - MIN;
+ 
+//declare a local variable
+int someNum = 0;
+ 
+//"seed" the random number generator w/ the value of time()
+srand((unsigned)time(0));
+ 
+//generate the random number
+someNum = (rand() % RANGE_SIZE) + MIN;*/
+void Design::generateMazeWallH(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2) {
+	
+  srand((unsigned)time(0));
+  int wallLocation = (rand() % (y2-y1)) + y1;
+
+  while ( wallLocation % 2 ) {
+
+    srand((unsigned)time(0));
+    wallLocation = (rand() % (y2-y1)) + y1;
+  }
+
+  srand((unsigned)time(0));
+  int holeLocation = (rand() % (x2-x1)) + x1;
+
+  while ( !holeLocation % 2 ) {
+
+    srand((unsigned)time(0));
+    holeLocation = (rand() % (x2-x1)) + x1;
+  }
+
+  for (int x = x1; x < x2; x++) {
+  
+    if (x != holeLocation) maze[wallLocation][x] = 0;
+  }
+
+  if (x2 - x1 > 3) geterateMazeWallH();
+}
+
+void Design::generateMazeWallV(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2) {
+
+  srand((unsigned)time(0));
+  int wallLocation = (rand() % (x2-x1)) + x1;
+
+  while ( wallLocation % 2 ) {
+
+    srand((unsigned)time(0));
+    wallLocation = (rand() % (x2-x1)) + x1;
+  }
+
+  srand((unsigned)time(0));
+  int holeLocation = (rand() % (y2-y1)) + y1;
+
+  while ( !holeLocation % 2 ) {
+
+    srand((unsigned)time(0));
+    holeLocation = (rand() % (y2-y1)) + y1;
+  }
+
+  for (int y = y1; y < y2; y++) {
+  
+    if (y != holeLocation) maze[y][wallLocation] = 0;
+  }
+}
 
 // initialize initializes the coordinator, creates the primitive sets, textures,
 // objects, lights, sounds, cameras, and text items for the initial coordinator,
@@ -131,6 +199,12 @@ void Design::initialize(int now) {
 
     // maze ---------------------------------------------------------
 
+	// randomly generate a maze
+	generateMazeWallV( MAZE_ARRAY, 1, 1, MAZE_ARRAY_ROW-1, MAZE_ARRAY_COL-1 );
+
+	//MAZE_ARRAY[5][5] = 0;
+
+	// render maze
     int left, right, back, front;
 
     for (int y = 0; y < MAZE_ARRAY_COL; y++) {
