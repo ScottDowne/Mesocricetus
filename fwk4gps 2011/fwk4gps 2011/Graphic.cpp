@@ -301,7 +301,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
     PrimitiveSet* primitiveSet = 
      (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * 2, LIT_VERTEX);
 
-    float x = (minx + maxx) / 2;
+    /*float x = (minx + maxx) / 2;
     float y = (miny + maxy) / 2;
     float z = (minz + maxz) / 2;
     minx -= x;
@@ -309,7 +309,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
     minz -= z;
     maxx -= x;
     maxy -= y;
-    maxz -= z;
+    maxz -= z;*/
     // locate centroid at origin
     Vector p1 = Vector(minx, miny, minz),
            p2 = Vector(minx, maxy, minz),
@@ -329,37 +329,35 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
     return primitiveSet;
 }
 
-std::list<iGraphic*>  CreateMaze(int (*mazeArray)[20], int colCount, int rowCount ) {
+std::list<iGraphic*>  CreateMaze(int mazeArray[][20], int colCount, int rowCount ) {
    
    std::list<iGraphic*> primitiveSets;
    int left, right, back, front;
 
-   for (int y = 0; y < colCount; y++) {
-   
-      int * cols = &( (*mazeArray)[y]);
+   for (int y = 0; y < 2; y++) {
 
       for (int x = 0; x < rowCount; x++) {
       
-         if ( cols[x] == 0) {
+         if ( mazeArray[y][x] == 0) {
          
             left = right = back = front = 0;
 
-            if (x == 0 || cols[x-1] > 0) {
+            if (x == 0 || mazeArray[y][x-1] > 0) {
             
                left = 1;
             }
 
-            if (x == colCount || cols[x+1] > 0) {
+            if (x == colCount-1 || mazeArray[y][x+1] > 0) {
             
                right = 1;
             }
 
-            if (y == 0 || ( &( (*mazeArray)[y+1]))[x] > 0) {
+            if (y == 0 || mazeArray[y+1][x] > 0) {
             
                back = 1;
             }
 
-            if (y == rowCount || ( &( (*mazeArray)[y+1]))[x] > 0) {
+            if (y == rowCount-1 || mazeArray[y+1][x] > 0) {
             
                front = 1;
             }
@@ -369,8 +367,8 @@ std::list<iGraphic*>  CreateMaze(int (*mazeArray)[20], int colCount, int rowCoun
          }
          else
          {
-            primitiveSets.push_back(CreateBox(x, colCount - y, 0, x+1, (colCount - y) + 1, 1,
-                                              0, 0, 0, 0, 1, 0));
+            primitiveSets.push_back(CreateBox(x, colCount - y - 1, 0, x+1, (colCount - y) + 1 - 1, 1,
+                                              0, 0, 0, 0, 0, 1));
          }
  
       }

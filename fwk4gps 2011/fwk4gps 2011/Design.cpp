@@ -174,7 +174,51 @@ void Design::initialize(int now) {
 
     // maze ---------------------------------------------------------
 
-    std::list<iGraphic *> mazeGraphics = CreateMaze(MAZE_ARRAY, MAZE_ARRAY_COL, MAZE_ARRAY_ROW);
+   int left, right, back, front;
+
+   for (int y = 0; y < MAZE_ARRAY_COL; y++) {
+
+      for (int x = 0; x < MAZE_ARRAY_ROW; x++) {
+      
+         if ( MAZE_ARRAY[y][x] == 0) {
+         
+            left = right = back = front = 0;
+
+            if (x == 0 || MAZE_ARRAY[y][x-1] > 0) {
+            
+               left = 1;
+            }
+
+            if (x == MAZE_ARRAY_COL-1 || MAZE_ARRAY[y][x+1] > 0) {
+            
+               right = 1;
+            }
+
+            if (y == 0 || MAZE_ARRAY[y+1][x] > 0) {
+            
+               back = 1;
+            }
+
+            if (y == MAZE_ARRAY_ROW-1 || MAZE_ARRAY[y+1][x] > 0) {
+            
+               front = 1;
+            }
+
+            //primitiveSets.push_back(CreateBox(x, colCount - y, 0, x+1, (colCount - y) + 1, 1,
+            //                                  front, right, back, left, 0, 1));
+			CreateObject(CreateBox(x, 0, MAZE_ARRAY_COL - y, x+1, 1, (MAZE_ARRAY_COL - y) + 1, front, right, back, left, 0, 1), &greyish);
+         }
+         else
+         {
+            //primitiveSets.push_back(CreateBox(x, colCount - y - 1, 0, x+1, (colCount - y) + 1 - 1, 1,
+            //                                  0, 0, 0, 0, 0, 1));
+			 CreateObject(CreateBox(x, -1, MAZE_ARRAY_COL - y, x+1, 0, (MAZE_ARRAY_COL - y) + 1, 0, 0, 0, 0, 0, 1), &greyish);
+         }
+ 
+      }
+   }
+
+    /*std::list<iGraphic *> mazeGraphics = CreateMaze(MAZE_ARRAY, MAZE_ARRAY_COL, MAZE_ARRAY_ROW);
 
     maze = new std::list<iObject *>();
     std::list<iGraphic *>::iterator mazeGraphicsItr = mazeGraphics.begin();
@@ -182,7 +226,7 @@ void Design::initialize(int now) {
     for (std::list<iGraphic *>::iterator itr = mazeGraphics.begin(); itr != mazeGraphics.end(); itr++)
     {
        maze->push_back(CreateObject(*itr, &greyish));
-    }
+    }*/
 
 	// create textures
 	iTexture* checkbmp = CreateTexture(L"check.bmp");
@@ -222,15 +266,15 @@ void Design::initialize(int now) {
 	spinTop->rotatex(1.57f * MODEL_Z_AXIS);
 
     Reflectivity whiteish = Reflectivity(Colour(0.9f, 0.9f, 0.9f));
-    iObject* xz = CreateObject(grid, &whiteish);
-    xz->setRadius(71);
-    iObject* xy = Clone(xz);
-    iObject* yz = Clone(xz);
-    xz->translate(25, 0, 25 * Z_AXIS);
-    xy->rotatex(1.5708f);
-    xy->translate(25, 25, 0);
-    yz->rotatez(1.5708f);
-    yz->translate(0, 25, 25 * Z_AXIS);
+    //iObject* xz = CreateObject(grid, &whiteish);
+    //xz->setRadius(71);
+    //iObject* xy = Clone(xz);
+    //iObject* yz = Clone(xz);
+    //xz->translate(25, 0, 25 * Z_AXIS);
+    //xy->rotatex(1.5708f);
+    //xy->translate(25, 25, 0);
+    //yz->rotatez(1.5708f);
+    //yz->translate(0, 25, 25 * Z_AXIS);
 
     // lighting ---------------------------------------------------------------
 

@@ -53,7 +53,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz, int front, int right, int back, int left, int bottom, int top);
 
-std::list<iGraphic*>  CreateMaze(int (*mazeArray)[20], int colCount, int rowCount );
+std::list<iGraphic*>  CreateMaze(int mazeArray[][20], int colCount, int rowCount );
 
 iGraphic* CreateGrid(int min, int y, int max, int n);
 
