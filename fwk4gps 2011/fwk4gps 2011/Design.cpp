@@ -161,11 +161,11 @@ void Design::initialize(int now) {
                 front = 1;
              }
 
-		     CreateObject(CreateBox(x, 0, MAZE_ARRAY_COL - y, x+1, 1, (MAZE_ARRAY_COL - y) + 1, front, right, back, left, 0, 1), &greyish);
+		     CreateObject(CreateWalls((float)x, 0.0f, (float)MAZE_ARRAY_COL - y, (float)x + 1, 1.0f, (float)MAZE_ARRAY_COL - y + 1, front, right, back, left, 0, 1, 8), &greyish);
           }
           else {
 
-		     CreateObject(CreateBox(x, -1, MAZE_ARRAY_COL - y, x+1, 0, (MAZE_ARRAY_COL - y) + 1, 0, 0, 0, 0, 0, 1), &greyish);
+		     CreateObject(CreateWalls((float)x, -1.0f, (float)MAZE_ARRAY_COL - y, (float)x + 1, 0.0f, (MAZE_ARRAY_COL - y) + 1.0f, 0, 0, 0, 0, 0, 1, 8), &greyish);
           }
           
        }
