@@ -102,6 +102,8 @@ public:
     virtual int  add(const Vector&, const Vector&, float = 0, float = 0);
     virtual void add(const Vector&, const Vector&, const Vector&, 
      const Vector&, const Vector&);
+    virtual void add(const Vector&, const Vector&, const Vector&, 
+     const Vector&, const Vector&, int triangleCount);
     void draw();
     void suspend();
     void release();
