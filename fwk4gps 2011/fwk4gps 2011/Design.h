@@ -12,7 +12,8 @@
  */
 
 #include "iDesign.h" // for the Design Interface
-
+#include "Maze.h"
+#include <list>
 //-------------------------------- Design -------------------------------------
 //
 // The Design class defines the structure of the game design
@@ -37,6 +38,7 @@ class Design : public iDesign {
 	iSound*   locall;          // points to local sound on the left
 	iSound*   localr;          // points to local sound on the right
 
+   
     iTexture* hudTexture;      // points to the hud texture
 
 	iLight*   pointLight;      // points to the point light
@@ -78,6 +80,7 @@ class Design : public iDesign {
     iText*    rollLeftDataY;   // points to left spinner y data text
     iText*    rollLeftDataZ;   // points to left spinner z data text
 
+    std::list<iObject*> * maze;   //points to the maze
     iObject*  rollLeft;        // points to left spinner
     iObject*  rollRight;       // points to right spinner
 	iObject*  spinTop;         // points to top spinner

@@ -105,6 +105,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Maze.h" />
     <ClInclude Include="APILight.h" />
     <ClInclude Include="APIGraphic.h" />
     <ClInclude Include="APISound.h" />

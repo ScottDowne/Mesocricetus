@@ -292,8 +292,14 @@ PrimitiveSet::~PrimitiveSet() {
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz) {
     
+   return CreateBox(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
+}
+
+iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
+ float maxy, float maxz, int front, int right, int back, int left, int bottom, int top) {
+    
     PrimitiveSet* primitiveSet = 
-     (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, 12, LIT_VERTEX);
+     (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * 2, LIT_VERTEX);
 
     float x = (minx + maxx) / 2;
     float y = (miny + maxy) / 2;
@@ -313,14 +319,64 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
            p6 = Vector(minx, maxy, maxz),
            p7 = Vector(maxx, maxy, maxz),
            p8 = Vector(maxx, miny, maxz);
-    primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1)); // front
-    primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0)); // right
-    primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1)); // back
-    primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0)); // left
-    primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
-    primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0)); // top
+    if (front) primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1)); // front
+    if (right) primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0)); // right
+    if (back) primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1)); // back
+    if (left) primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0)); // left
+    if (bottom) primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
+    if (top) primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0)); // top
 
     return primitiveSet;
+}
+
+std::list<iGraphic*>  CreateMaze(int (*mazeArray)[20], int colCount, int rowCount ) {
+   
+   std::list<iGraphic*> primitiveSets;
+   int left, right, back, front;
+
+   for (int y = 0; y < colCount; y++) {
+   
+      int * cols = &( (*mazeArray)[y]);
+
+      for (int x = 0; x < rowCount; x++) {
+      
+         if ( cols[x] == 0) {
+         
+            left = right = back = front = 0;
+
+            if (x == 0 || cols[x-1] > 0) {
+            
+               left = 1;
+            }
+
+            if (x == colCount || cols[x+1] > 0) {
+            
+               right = 1;
+            }
+
+            if (y == 0 || ( &( (*mazeArray)[y+1]))[x] > 0) {
+            
+               back = 1;
+            }
+
+            if (y == rowCount || ( &( (*mazeArray)[y+1]))[x] > 0) {
+            
+               front = 1;
+            }
+
+            primitiveSets.push_back(CreateBox(x, colCount - y, 0, x+1, (colCount - y) + 1, 1,
+                                              front, right, back, left, 0, 1));
+         }
+         else
+         {
+            primitiveSets.push_back(CreateBox(x, colCount - y, 0, x+1, (colCount - y) + 1, 1,
+                                              0, 0, 0, 0, 1, 0));
+         }
+ 
+      }
+   }
+
+   return primitiveSets;
 }
 
 // CreateGrid builds a grid-like line list one line at a time
