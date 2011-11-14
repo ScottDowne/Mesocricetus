@@ -281,6 +281,9 @@
     <ClInclude Include="DirectAPISettings.h">
       <Filter>Header Files\Direct API</Filter>
     </ClInclude>
+    <ClInclude Include="Maze.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dialog.rc">

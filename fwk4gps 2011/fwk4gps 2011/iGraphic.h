@@ -11,6 +11,8 @@
  * distributed under TPL - see ../Licenses.txt
  */
 
+#include <list>
+
 //-------------------------------- iVertexList --------------------------------
 //
 enum VertexType;
@@ -47,6 +49,11 @@ iGraphic* CreatePrimitiveSet(PrimitiveType, int, VertexType);
 
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz);
+
+iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
+ float maxy, float maxz, int front, int right, int back, int left, int bottom, int top);
+
+std::list<iGraphic*>  CreateMaze(int (*mazeArray)[20], int colCount, int rowCount );
 
 iGraphic* CreateGrid(int min, int y, int max, int n);
 
