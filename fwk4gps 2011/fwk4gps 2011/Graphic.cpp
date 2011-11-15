@@ -227,7 +227,7 @@ int PrimitiveSet::add(const Vector& p, const Vector& n, float u, float v) {
     return vertexList->add(p, n, u, v);
 }
 
-// add adds six vertices to the vertex list describing a quadrilateral that
+// adds six vertices to the vertex list describing a quadrilateral that
 // has been defined in terms of four Vectors and a normal vector - the 
 // ordering of the vertices in each triangle of the quad exposes the front
 // (visible) face of the triangle on the host platform
@@ -241,6 +241,36 @@ void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3,
     vertexList->add(p1, n, 0, 0);
     vertexList->add(p3, n, 1, 1);
     vertexList->add(p4, n, 1, 0);
+}
+
+// adds (triangleCount * 2) vertices to the vertex list describing a quadrilateral that
+// has been defined in terms of four Vectors and a normal vector - the 
+// ordering of the vertices in each triangle of the quad exposes the front
+// (visible) face of the triangle on the host platform
+
+void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3, 
+ const Vector& p4, const Vector& n, int triangleCount) {
+
+    if (triangleCount == 2)
+    {
+      add(p1, p2, p3, p4,n);
+      
+      return;
+    }
+
+    /*
+      Increase the triangle count by divding the longest side by two.
+      p1 *           * p2
+
+              * p5
+
+                     * p3
+    */
+
+    Vector p5 = (p1 + p3) /2;
+    
+    add(p5, p1, p2, p3, n, triangleCount/2);
+    add(p4, p1, p5, p3, n, triangleCount/2);
 }
 
 // getPosition returns the position of vertex i
@@ -291,43 +321,52 @@ PrimitiveSet::~PrimitiveSet() {
 //
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz) {
-   
-	// locate centroid at origin
-	float x = (minx + maxx) / 2;
-    float y = (miny + maxy) / 2;
-    float z = (minz + maxz) / 2;
-    minx -= x;
-    miny -= y;
-    minz -= z;
-    maxx -= x;
-    maxy -= y;
-    maxz -= z;
+   // locate centroid at origin
+   float x = (minx + maxx) / 2;
+   float y = (miny + maxy) / 2;
+   float z = (minz + maxz) / 2;
+   minx -= x;
+   miny -= y;
+   minz -= z;
+   maxx -= x;
+   maxy -= y;
+   maxz -= z;
 
-   return CreateBox(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
+   return CreateWalls(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
 }
 
-iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
- float maxy, float maxz, int front, int right, int back, int left, int bottom, int top) {
-    
-    PrimitiveSet* primitiveSet = 
-     (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * 2, LIT_VERTEX);
+// CreateWalls builds a triangle vertex list for a brick-like box from
+// two extreme points one face at a time with all faces having the same
+// attributes
+// Method accepts 
+// 1. flags for which faces to render
+// 2. resolution in terms of triangles per face
 
-    Vector p1 = Vector(minx, miny, minz),
-           p2 = Vector(minx, maxy, minz),
-           p3 = Vector(maxx, maxy, minz),
-           p4 = Vector(maxx, miny, minz),
-           p5 = Vector(minx, miny, maxz),
-           p6 = Vector(minx, maxy, maxz),
-           p7 = Vector(maxx, maxy, maxz),
-           p8 = Vector(maxx, miny, maxz);
-    if (front) primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1)); // front
-    if (right) primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0)); // right
-    if (back) primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1)); // back
-    if (left) primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0)); // left
-    if (bottom) primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
-    if (top) primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0)); // top
+iGraphic* CreateWalls(float minx, float miny, float minz, float maxx, 
+ float maxy, float maxz, int front, int right, int back, int left, int bottom, int top, int resolution) {
 
-    return primitiveSet;
+   resolution = 2 << (resolution-1);
+
+   PrimitiveSet* primitiveSet = 
+   (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * resolution, LIT_VERTEX);
+
+   Vector p1 = Vector(minx, miny, minz),
+         p2 = Vector(minx, maxy, minz),
+         p3 = Vector(maxx, maxy, minz),
+         p4 = Vector(maxx, miny, minz),
+         p5 = Vector(minx, miny, maxz),
+         p6 = Vector(minx, maxy, maxz),
+         p7 = Vector(maxx, maxy, maxz),
+         p8 = Vector(maxx, miny, maxz);
+
+   if (front)  primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1), resolution); // front
+   if (right)  primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0), resolution); // right
+   if (back)   primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1), resolution); // back
+   if (left)   primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0), resolution); // left
+   if (bottom) primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0), resolution); // bottom
+   if (top)    primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0), resolution); // top
+
+   return primitiveSet;
 }
 
 // CreateGrid builds a grid-like line list one line at a time
