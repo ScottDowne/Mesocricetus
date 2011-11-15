@@ -101,9 +101,9 @@ public:
     Vector getPosition(int i) const;
     virtual int  add(const Vector&, const Vector&, float = 0, float = 0);
     virtual void add(const Vector&, const Vector&, const Vector&, 
-     const Vector&, const Vector&);
-    virtual void add(const Vector&, const Vector&, const Vector&, 
-     const Vector&, const Vector&, int triangleCount);
+     const Vector&, const Vector&, int = 2);
+    virtual void subDivide(const Vector&, const Vector&, const Vector&, 
+     const Vector&, int, bool = true);
     void draw();
     void suspend();
     void release();
