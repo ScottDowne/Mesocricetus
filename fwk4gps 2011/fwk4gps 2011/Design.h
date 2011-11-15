@@ -41,8 +41,8 @@ class Design : public iDesign {
 
     int       lastUpdate;      // time that the coordinator was last updated
 	
-	void generateMazeWallH(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2);
-	void generateMazeWallV(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2);
+	void generateMazeWallH(int x1, int y1, int x2, int y2);
+	void generateMazeWallV(int x1, int y1, int x2, int y2);
 
     Design(iContext* c);
     Design(const Design& s);            // prevents copying

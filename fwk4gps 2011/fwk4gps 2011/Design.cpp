@@ -97,70 +97,56 @@ bool Design::setup(void* hwnd) {
 
     return rc;
 }
-//declare local constants
-/*const int MIN = 5;//the minimum allowable value
-const int MAX = 20;//the maximum allowable value
-const int RANGE_SIZE = (MAX+1) - MIN;
- 
-//declare a local variable
-int someNum = 0;
- 
-//"seed" the random number generator w/ the value of time()
-srand((unsigned)time(0));
- 
-//generate the random number
-someNum = (rand() % RANGE_SIZE) + MIN;*/
-void Design::generateMazeWallH(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2) {
+
+void Design::generateMazeWallH(int x1, int y1, int x2, int y2) {
 	
-  srand((unsigned)time(0));
-  int wallLocation = (rand() % (y2-y1)) + y1;
-
-  while ( wallLocation % 2 ) {
-
-    srand((unsigned)time(0));
+  int wallLocation = 0;
+  do {
+  
     wallLocation = (rand() % (y2-y1)) + y1;
-  }
+  } while (wallLocation % 2 != 0);
 
-  srand((unsigned)time(0));
-  int holeLocation = (rand() % (x2-x1)) + x1;
-
-  while ( !holeLocation % 2 ) {
-
-    srand((unsigned)time(0));
+  int holeLocation = 0;
+  do {
+  
     holeLocation = (rand() % (x2-x1)) + x1;
-  }
+  } while (holeLocation % 2 ==0);
 
   for (int x = x1; x < x2; x++) {
   
-    if (x != holeLocation) maze[wallLocation][x] = 0;
+    if (x != holeLocation) MAZE_ARRAY[wallLocation][x] = 0;
   }
+  
+  if (x2 - x1 >= 3) {
 
-  if (x2 - x1 > 3) geterateMazeWallH();
+    if (wallLocation - y1 > 1) generateMazeWallV(x1, y1, x2, wallLocation);
+    if (y2 - wallLocation > 1) generateMazeWallV(x1, wallLocation+1, x2, y2);
+  }
 }
 
-void Design::generateMazeWallV(int maze[MAZE_ARRAY_COL][MAZE_ARRAY_ROW], int x1, int y1, int x2, int y2) {
+void Design::generateMazeWallV(int x1, int y1, int x2, int y2) {
 
-  srand((unsigned)time(0));
-  int wallLocation = (rand() % (x2-x1)) + x1;
-
-  while ( wallLocation % 2 ) {
-
-    srand((unsigned)time(0));
+  int wallLocation = 0;
+  do {
+  
     wallLocation = (rand() % (x2-x1)) + x1;
-  }
+  } while (wallLocation % 2 != 0);
 
-  srand((unsigned)time(0));
-  int holeLocation = (rand() % (y2-y1)) + y1;
-
-  while ( !holeLocation % 2 ) {
-
-    srand((unsigned)time(0));
+  int holeLocation = 0;
+  do {
+  
     holeLocation = (rand() % (y2-y1)) + y1;
-  }
+  } while (holeLocation % 2 == 0);
 
   for (int y = y1; y < y2; y++) {
   
-    if (y != holeLocation) maze[y][wallLocation] = 0;
+    if (y != holeLocation) MAZE_ARRAY[y][wallLocation] = 0;
+  }
+
+  if (y2 - y1 >= 3) {
+
+    if (wallLocation - x1 > 1) generateMazeWallH(x1, y1, wallLocation, y2);
+    if (x2 - wallLocation > 1) generateMazeWallH(wallLocation+1, y1, x2, y2);
   }
 }
 
@@ -200,7 +186,8 @@ void Design::initialize(int now) {
     // maze ---------------------------------------------------------
 
 	// randomly generate a maze
-	generateMazeWallV( MAZE_ARRAY, 1, 1, MAZE_ARRAY_ROW-1, MAZE_ARRAY_COL-1 );
+	srand((unsigned)time(0));
+	generateMazeWallH(1, 1, MAZE_ARRAY_ROW-1, MAZE_ARRAY_COL-1 );
 
 	//MAZE_ARRAY[5][5] = 0;
 
@@ -225,7 +212,7 @@ void Design::initialize(int now) {
                 right = 1;
              }
 
-             if (y == 0 || MAZE_ARRAY[y+1][x] > 0) {
+             if (y == 0 || MAZE_ARRAY[y-1][x] > 0) {
             
                 back = 1;
              }
