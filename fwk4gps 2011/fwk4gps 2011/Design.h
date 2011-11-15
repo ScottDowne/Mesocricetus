@@ -40,6 +40,9 @@ class Design : public iDesign {
     iCamera*  camera;          // points to the camera
 
     int       lastUpdate;      // time that the coordinator was last updated
+	
+	void generateMazeWallH(int x1, int y1, int x2, int y2);
+	void generateMazeWallV(int x1, int y1, int x2, int y2);
 
     Design(iContext* c);
     Design(const Design& s);            // prevents copying

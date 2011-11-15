@@ -8,6 +8,8 @@
  * distributed under TPL - see ../Licenses.txt
  */
 #include <list>
+#include <cstdlib>
+#include <ctime>
 #include "iContext.h"        // for the Context Interface
 #include "iText.h"           // for the Text Interface
 #include "iSound.h"          // for the Sound Interface
@@ -96,6 +98,58 @@ bool Design::setup(void* hwnd) {
     return rc;
 }
 
+void Design::generateMazeWallH(int x1, int y1, int x2, int y2) {
+	
+  int wallLocation = 0;
+  do {
+  
+    wallLocation = (rand() % (y2-y1)) + y1;
+  } while (wallLocation % 2 != 0);
+
+  int holeLocation = 0;
+  do {
+  
+    holeLocation = (rand() % (x2-x1)) + x1;
+  } while (holeLocation % 2 ==0);
+
+  for (int x = x1; x < x2; x++) {
+  
+    if (x != holeLocation) MAZE_ARRAY[wallLocation][x] = 0;
+  }
+  
+  if (x2 - x1 >= 3) {
+
+    if (wallLocation - y1 > 1) generateMazeWallV(x1, y1, x2, wallLocation);
+    if (y2 - wallLocation > 1) generateMazeWallV(x1, wallLocation+1, x2, y2);
+  }
+}
+
+void Design::generateMazeWallV(int x1, int y1, int x2, int y2) {
+
+  int wallLocation = 0;
+  do {
+  
+    wallLocation = (rand() % (x2-x1)) + x1;
+  } while (wallLocation % 2 != 0);
+
+  int holeLocation = 0;
+  do {
+  
+    holeLocation = (rand() % (y2-y1)) + y1;
+  } while (holeLocation % 2 == 0);
+
+  for (int y = y1; y < y2; y++) {
+  
+    if (y != holeLocation) MAZE_ARRAY[y][wallLocation] = 0;
+  }
+
+  if (y2 - y1 >= 3) {
+
+    if (wallLocation - x1 > 1) generateMazeWallH(x1, y1, wallLocation, y2);
+    if (x2 - wallLocation > 1) generateMazeWallH(wallLocation+1, y1, x2, y2);
+  }
+}
+
 // initialize initializes the coordinator, creates the primitive sets, textures,
 // objects, lights, sounds, cameras, and text items for the initial coordinator,
 // and initializes the reference time
@@ -131,6 +185,13 @@ void Design::initialize(int now) {
 
     // maze ---------------------------------------------------------
 
+	// randomly generate a maze
+	srand((unsigned)time(0));
+	generateMazeWallH(1, 1, MAZE_ARRAY_ROW-1, MAZE_ARRAY_COL-1 );
+
+	//MAZE_ARRAY[5][5] = 0;
+
+	// render maze
     int left, right, back, front;
 
     for (int y = 0; y < MAZE_ARRAY_COL; y++) {
@@ -151,7 +212,7 @@ void Design::initialize(int now) {
                 right = 1;
              }
 
-             if (y == 0 || MAZE_ARRAY[y+1][x] > 0) {
+             if (y == 0 || MAZE_ARRAY[y-1][x] > 0) {
             
                 back = 1;
              }
