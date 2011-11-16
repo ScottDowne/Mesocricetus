@@ -12,6 +12,7 @@
  */
 
 #include "Frame.h" // for the BoundedVolume definition
+#include "Maze.h"
 
 //-------------------------------- iCamera ------------------------------------
 //
@@ -27,6 +28,6 @@ class iCamera : public BoundedVolume {
 	virtual void Delete() const        = 0;
 };
 
-iCamera* CreateCamera(iContext* c);
+iCamera* CreateCamera(iContext* c, Maze* m);
 
 #endif

@@ -94,6 +94,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Coordinator.cpp" />
+    <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="Sound.cpp" />

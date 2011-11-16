@@ -571,6 +571,12 @@ typedef struct RelRect {
 #define SOUND_DISTANCE_FACTOR       1.0f  // metres per coordinator unit
 #define ATTENUATION_DISTANCE_FACTOR 10    // where attenuation begins
 
+// maze parameters
+//
+const int SCALE = 8;
+const int MAZE_ARRAY_ROW = 21;
+const int MAZE_ARRAY_COL = 21;
+
 #endif
 
 
