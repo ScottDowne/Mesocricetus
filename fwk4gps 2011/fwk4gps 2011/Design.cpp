@@ -167,12 +167,10 @@ void Design::initialize(int now) {
     // cameras ----------------------------------------------------------------
 
     // camera at a distance - in lhs coordinates
-    (camera = CreateCamera(context))->translate(-20, 0, -80);
+    (camera = CreateCamera(context))->translate(0, 0, 0);
     camera->setRadius(17.8f);
-
-    // camera attached to the left box object
-    iCamera* objectCamera = CreateCamera(context);
-
+	camera->translate((19 + 0.5) * SCALE, 0.5 * SCALE, 1.5 * SCALE);
+	
     // coordinator ------------------------------------------------------------------
 
     Colour white(1, 1, 1);
@@ -188,8 +186,6 @@ void Design::initialize(int now) {
 	// randomly generate a maze
 	srand((unsigned)time(0));
 	generateMazeWallH(1, 1, MAZE_ARRAY_ROW-1, MAZE_ARRAY_COL-1 );
-
-	//MAZE_ARRAY[5][5] = 0;
 
 	// render maze
     int left, right, back, front;
@@ -222,11 +218,11 @@ void Design::initialize(int now) {
                 front = 1;
              }
 
-		     CreateObject(CreateWalls((float)x, 0.0f, (float)MAZE_ARRAY_COL - y, (float)x + 1, 1.0f, (float)MAZE_ARRAY_COL - y + 1, front, right, back, left, 0, 1, 8), &greyish);
+		     CreateObject(CreateWalls((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 8), &greyish);
           }
           else {
 
-		     CreateObject(CreateWalls((float)x, -1.0f, (float)MAZE_ARRAY_COL - y, (float)x + 1, 0.0f, (MAZE_ARRAY_COL - y) + 1.0f, 0, 0, 0, 0, 0, 1, 8), &greyish);
+		     CreateObject(CreateWalls((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 8), &greyish);
           }
           
        }
@@ -376,4 +372,3 @@ const wchar_t* position(wchar_t* str, const iFrame* frame) {
 
 	return str;
 }
-
