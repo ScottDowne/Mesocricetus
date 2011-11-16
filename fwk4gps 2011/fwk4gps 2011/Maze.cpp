@@ -4,6 +4,7 @@
 #include "Configuration.h"
 #include "iObject.h"         // for the Object Interface
 #include "iGraphic.h"        // for the Graphic Interface
+#include "iTexture.h"        // for the Texture Interface
 #include "Maze.h"
 
 Maze::Maze() {
@@ -85,13 +86,14 @@ void Maze::generateMazeWallV(int x1, int y1, int x2, int y2) {
 
 void Maze::renderMaze() {
 	
+	iTexture* wall = CreateTexture(L"wall.PNG");
     Colour white(1, 1, 1);
     Colour yellow(0.7f, 0.7f, 0.0f);
     Colour grey(0.7f, 0.7f, 0.7f);
-    Colour turquoise(0, 0.8f, 0.6f);
+    Colour wallColour(0.8f, 0.8f, 0.6f);
     Colour black(0, 0, 0);
 
-    Reflectivity greyish = Reflectivity(grey);
+    Reflectivity wallReflectivity = Reflectivity(wallColour);
 	// render maze
     int left, right, back, front;
 
@@ -123,11 +125,11 @@ void Maze::renderMaze() {
                 front = 1;
              }
 
-		     CreateObject(CreateWalls((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 8), &greyish);
+		     CreateObject(CreateWalls((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 8), &wallReflectivity);//->attach(wall);
           }
           else {
 
-		     CreateObject(CreateWalls((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 8), &greyish);
+			  CreateObject(CreateWalls((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 8), &wallReflectivity);//->attach(wall);
           }
           
        }

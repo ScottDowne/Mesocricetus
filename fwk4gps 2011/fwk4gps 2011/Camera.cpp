@@ -153,7 +153,7 @@ void Camera::update(int delta) {
 		}
 
 		if (maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
-        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z + boundingY) / SCALE + boundingY)) translate(0, 0, displacement.z);
+        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction
