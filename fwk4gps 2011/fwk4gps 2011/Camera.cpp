@@ -58,6 +58,9 @@ void Camera::update(int delta) {
     int rx = 0,
         ry = 0,
         rz = 0;
+	float bounds = 0.2,
+		  boundingX = 0,
+		  boundingY = 0;
     bool adjustCamera = !context->pressed(ADJUST_PROJECTOR);
 
     // controller input
@@ -134,8 +137,23 @@ void Camera::update(int delta) {
 
 		Vector pos = position();
 
-		if (maze->checkCollision((pos.x + displacement.x) / SCALE, pos.z / SCALE)) translate(displacement.x, 0, 0);
-        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE)) translate(0, 0, displacement.z);
+		if (displacement.z > 0) {
+		
+			boundingY = bounds;
+		} else {
+		
+		    boundingY = -bounds;
+		}
+		if (displacement.x > 0) {
+		
+			boundingX = bounds;
+		} else {
+		
+		    boundingX = -bounds;
+		}
+
+		if (maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
+        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z + boundingY) / SCALE + boundingY)) translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction
