@@ -117,7 +117,7 @@ void Design::initialize(int now) {
     // cameras ----------------------------------------------------------------
 
     // camera at a distance - in lhs coordinates
-    (camera = CreateCamera(context))->translate(0, 0, 0);
+    (camera = CreateCamera(context, maze))->translate(0, 0, 0);
     camera->setRadius(17.8f);
 	camera->translate((19 + 0.5) * SCALE, 0.5 * SCALE, 1.5 * SCALE);
 	

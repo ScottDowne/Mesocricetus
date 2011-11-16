@@ -133,3 +133,14 @@ void Maze::renderMaze() {
        }
     }
 }
+
+bool Maze::checkCollision(int x, int y) {
+
+	bool rc = true;
+
+	if (mazeArray[MAZE_ARRAY_COL - y][x] == 0) {
+	  rc = false;
+	}
+
+	return rc;
+}

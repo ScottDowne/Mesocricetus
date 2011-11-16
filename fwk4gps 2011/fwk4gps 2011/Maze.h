@@ -11,6 +11,6 @@ class Maze {
     Maze();
 	void renderMaze();
 	void generateMaze();
-	bool checkCollision(int x, int y, int z);
+	bool checkCollision(int x, int y);
 };
 #endif

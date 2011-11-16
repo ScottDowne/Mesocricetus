@@ -12,6 +12,7 @@
 #include "iCoordinator.h"    // for the Coordinator Interface
 #include "iUtilities.h"      // for error(), sprintf()
 
+#include "Maze.h"
 #include "Camera.h"          // for Camera class definition
 #include "MathDefinitions.h" // for math functions in coordinator coordinates
 #include "ModelSettings.h"   // for FLOOR, FORWARD_SPEED, ROT_SPEED, MAX_DESC
@@ -26,15 +27,16 @@ iCoordinator* Camera::coordinator = NULL;
 
 // CreateCamera creates a Camera object
 //
-iCamera* CreateCamera(iContext* c) {
+iCamera* CreateCamera(iContext* c, Maze* m) {
 
-	return new Camera(c);
+	return new Camera(c, m);
 }
 
 // constructor adds the Camera Instance to the coordinator
 //
-Camera::Camera(iContext* c) : context(c) {
+Camera::Camera(iContext* c, Maze* m) : context(c) {
 
+	maze = m;
     if (!coordinator)
         error(L"Camera::00 Couldn\'t access the Coordinator");
     else if(!coordinator->add(this))
@@ -131,13 +133,9 @@ void Camera::update(int delta) {
          (float) dz * CAM_SPEED * orientation('z');
 
 		Vector pos = position();
-		float x = pos.x;
-		// maze lives in 2D space, so z is y,
-		// because our context is from the top looking down
-		float y = pos.z;
 
-        translate(displacement.x, 0, 0);
-        translate(0, 0, displacement.z);
+		if (maze->checkCollision((pos.x + displacement.x) / SCALE, pos.z / SCALE)) translate(displacement.x, 0, 0);
+        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE)) translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction

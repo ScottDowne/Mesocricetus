@@ -24,14 +24,14 @@ class Camera : public iCamera {
     static iCoordinator* coordinator; // points to the Coordinator Object
 
     iContext*            context;     // points to the Context object
-
-    Camera(iContext*);
+	Maze* maze;
+    Camera(iContext*, Maze*);
 	Camera(const Camera& c);            // prevents copying
 	Camera& operator=(const Camera& c); // prevents assignment
     virtual ~Camera();
 
   public:
-	friend iCamera* CreateCamera(iContext*);
+	friend iCamera* CreateCamera(iContext*, Maze*);
 	static void isCoordinatedBy(iCoordinator* c) { coordinator = c; }
 	// execution function
     void   update(int delta);
