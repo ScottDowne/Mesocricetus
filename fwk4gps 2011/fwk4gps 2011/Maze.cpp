@@ -136,10 +136,12 @@ void Maze::renderMaze() {
 
 bool Maze::checkCollision(int x, int y) {
 
-	bool rc = true;
+	bool rc = false;
+	// flip it
+	y = MAZE_ARRAY_COL - y;
 
-	if (mazeArray[MAZE_ARRAY_COL - y][x] == 0) {
-	  rc = false;
+	if ( x >= 0 && x < MAZE_ARRAY_ROW &&  y >= 0 && y < MAZE_ARRAY_COL && mazeArray[y][x] >= 1) {
+	  rc = true;
 	}
 
 	return rc;
