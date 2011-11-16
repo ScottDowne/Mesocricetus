@@ -12,7 +12,6 @@
  */
 
 #include "iDesign.h" // for the Design Interface
-#include "Maze.h"
 #include <list>
 //-------------------------------- Design -------------------------------------
 //
@@ -35,14 +34,13 @@ class Design : public iDesign {
 
 	iLight*   pointLight;      // points to the point light
 
-    std::list<iObject*> * maze;   //points to the maze
+    //std::list<iObject*> * mazeList;   //points to the maze
 
     iCamera*  camera;          // points to the camera
 
     int       lastUpdate;      // time that the coordinator was last updated
-	
-	void generateMazeWallH(int x1, int y1, int x2, int y2);
-	void generateMazeWallV(int x1, int y1, int x2, int y2);
+
+	Maze* maze;
 
     Design(iContext* c);
     Design(const Design& s);            // prevents copying

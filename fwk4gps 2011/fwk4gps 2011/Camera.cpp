@@ -130,6 +130,12 @@ void Camera::update(int delta) {
          Vector(0,0,0) + 
          (float) dz * CAM_SPEED * orientation('z');
 
+		Vector pos = position();
+		float x = pos.x;
+		// maze lives in 2D space, so z is y,
+		// because our context is from the top looking down
+		float y = pos.z;
+
         translate(displacement.x, 0, 0);
         translate(0, 0, displacement.z);
     }
