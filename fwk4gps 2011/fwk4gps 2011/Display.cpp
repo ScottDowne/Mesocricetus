@@ -323,7 +323,10 @@ void Display::setupProjection() {
     projection = ::projection(fov, aspect, nearcp, farcp);
 
 	if (d3dd)
+   {
 		d3dd->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&projection);
+      d3dd->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
+   }
 }
 
 

@@ -233,44 +233,57 @@ int PrimitiveSet::add(const Vector& p, const Vector& n, float u, float v) {
 // (visible) face of the triangle on the host platform
 //
 void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3, 
- const Vector& p4, const Vector& n) {
-
-    vertexList->add(p1, n, 0, 0);
-    vertexList->add(p2, n, 0, 1);
-    vertexList->add(p3, n, 1, 1);
-    vertexList->add(p1, n, 0, 0);
-    vertexList->add(p3, n, 1, 1);
-    vertexList->add(p4, n, 1, 0);
-}
-
-// adds (triangleCount * 2) vertices to the vertex list describing a quadrilateral that
-// has been defined in terms of four Vectors and a normal vector - the 
-// ordering of the vertices in each triangle of the quad exposes the front
-// (visible) face of the triangle on the host platform
-
-void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3, 
  const Vector& p4, const Vector& n, int triangleCount) {
 
     if (triangleCount == 2)
     {
-      add(p1, p2, p3, p4,n);
-      
-      return;
+       vertexList->add(p1, n, 0, 0);
+       vertexList->add(p2, n, 0, 1);
+       vertexList->add(p3, n, 1, 1);
+       vertexList->add(p1, n, 0, 0);
+       vertexList->add(p3, n, 1, 1);
+       vertexList->add(p4, n, 1, 0);
     }
+    else
+    {
+      subDivide(p1, p2, p3, n, triangleCount/2, true);
+      subDivide(p3, p4, p1, n, triangleCount/2, false);
+    }
+}
 
-    /*
+void PrimitiveSet::subDivide(const Vector& p1, const Vector& p2, const Vector& p3, 
+ const Vector& n, int triangleCount, bool top)
+{
+   if (triangleCount == 1)
+   {
+      if (top)
+      {
+         vertexList->add(p1, n, 0, 0);
+         vertexList->add(p2, n, 0, 1);
+         vertexList->add(p3, n, 1, 1);
+      }
+      else
+      {
+         vertexList->add(p1, n, 0, 0);
+         vertexList->add(p2, n, 1, 1);
+         vertexList->add(p3, n, 1, 0);
+      }
+   }
+   else
+   {
+      /*
       Increase the triangle count by divding the longest side by two.
       p1 *           * p2
 
-              * p5
+            * p4
 
-                     * p3
-    */
-
-    Vector p5 = (p1 + p3) /2;
+                  * p3
+      */
+      Vector p4 = (p1 + p3) /2;
     
-    add(p5, p1, p2, p3, n, triangleCount/2);
-    add(p4, p1, p5, p3, n, triangleCount/2);
+      subDivide(p2, p4, p1, n, triangleCount/2, top);
+      subDivide(p3, p4, p2, n, triangleCount/2, top);
+   }
 }
 
 // getPosition returns the position of vertex i
