@@ -105,16 +105,16 @@ void Camera::update(int delta) {
         ry -= delta;
     if (context->pressed(CAM_YAW_RIGHT))
         ry += delta;
-    if (context->pressed(CAM_ROLL_LEFT))
-        rz -= delta;
-    if (context->pressed(CAM_ROLL_RIGHT))
-        rz += delta;
+    //if (context->pressed(CAM_ROLL_LEFT))
+    //    rz -= delta;
+    //if (context->pressed(CAM_ROLL_RIGHT))
+    //    rz += delta;
 
     // adjust camera orientation
 	if (adjustCamera && (rx || ry || rz)) {
         // yaw left/right
 		if (ry)
-            rotate(orientation('y'), ry * ANG_CAM_SPEED);
+            rotatey(-ry * ANG_CAM_SPEED);
 		// pitch up/down
         if (rx) 
             rotate(orientation('x'), rx * ANG_CAM_SPEED);
@@ -123,12 +123,15 @@ void Camera::update(int delta) {
             rotate(orientation('z'), rz * ANG_CAM_SPEED);
     }
 	// adjust camera position
-    if (adjustCamera && (dx || dy || dz)) { 
+    if (adjustCamera && (dx || dy || dz)) {
+
         Vector displacement = 
          (float) dx * CAM_SPEED * orientation('x') +
-         (float) dy * CAM_SPEED * orientation('y') + 
+         Vector(0,0,0) + 
          (float) dz * CAM_SPEED * orientation('z');
-        translate(displacement.x, displacement.y, displacement.z);
+
+        translate(displacement.x, 0, 0);
+        translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction
