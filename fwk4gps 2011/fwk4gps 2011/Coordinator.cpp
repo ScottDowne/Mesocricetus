@@ -67,7 +67,7 @@ Coordinator::Coordinator(iContext* c) : context(c) {
 	lastVolumeChange = 0;
 
     // HUD size and position
-	on          = false;
+	on          = true;
 	hudPosX     = HUD_X;
 	hudPosY     = HUD_Y;
 	validate();

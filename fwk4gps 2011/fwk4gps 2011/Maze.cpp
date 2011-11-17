@@ -23,6 +23,8 @@ Maze::Maze() {
 	// set starting and end points
 	mazeArray[0][1] = 1;
 	mazeArray[MAZE_ARRAY_ROW-1][MAZE_ARRAY_COL-2] = 1;
+	condition = -1;
+	collision = true;
 	
 	// randomly generate a maze
 	srand((unsigned)time(0));
@@ -138,13 +140,41 @@ void Maze::renderMaze() {
 
 bool Maze::checkCollision(int x, int y) {
 
-	bool rc = false;
+	bool rc = collision;
 	// flip it
 	y = MAZE_ARRAY_COL - y;
 
 	if ( x >= 0 && x < MAZE_ARRAY_ROW &&  y >= 0 && y < MAZE_ARRAY_COL && mazeArray[y][x] >= 1) {
-	  rc = true;
+	  rc = false;
 	}
+	
+	// set player condition to start, victory, or neither
+	// -1 start, 1 victory, 0 neither
+	  if (y == MAZE_ARRAY_ROW-1 && x == MAZE_ARRAY_COL-2) {
+	
+	    condition = -1;
+	  } else if (y == 0 && x == 1) {
+	
+	      condition = 1;
+	  } else {
+	
+		  condition = 0;
+	  }
 
 	return rc;
+}
+
+int Maze::checkCondition() {
+
+  return condition;
+}
+
+void Maze::toggleCollision() {
+
+	collision = !collision;
+}
+
+void Maze::toggleCollision(bool state) {
+
+	collision = state;
 }

@@ -251,7 +251,7 @@ typedef enum Action {
 	CAM_PITCH_UP,
 	CAM_PITCH_DOWN,
 	CAM_YAW_LEFT,
-	CAM_YAW_RIGHT,
+	TOGGLE_COLLISION,
 	CAM_ADVANCE,
 	CAM_RETREAT,
     CAM_ROLL_LEFT,
@@ -297,7 +297,7 @@ typedef enum Action {
 	L"Pitch Up",     \
 	L"Pitch Down",   \
 	L"Yaw Left",     \
-	L"Yaw Right",    \
+	L"Toggle Collision",    \
 	L"Move Camera Forward",     \
 	L"Move Camera Backward",    \
     L"Roll Camera Left", \
@@ -576,6 +576,7 @@ typedef struct RelRect {
 const int SCALE = 8;
 const int MAZE_ARRAY_ROW = 21;
 const int MAZE_ARRAY_COL = 21;
+const int TIME_LIMIT     = 60;
 
 #endif
 

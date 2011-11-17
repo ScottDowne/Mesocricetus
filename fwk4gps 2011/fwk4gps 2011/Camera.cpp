@@ -106,10 +106,10 @@ void Camera::update(int delta) {
         rx -= delta;
     if (context->pressed(CAM_PITCH_DOWN))
         rx += delta;
-    if (context->pressed(CAM_YAW_LEFT))
-        ry -= delta;
-    if (context->pressed(CAM_YAW_RIGHT))
-        ry += delta;
+    //if (context->pressed(CAM_YAW_LEFT))
+    //    ry -= delta;
+    //if (context->pressed(CAM_YAW_RIGHT))
+    //    ry += delta;
     //if (context->pressed(CAM_ROLL_LEFT))
     //    rz -= delta;
     //if (context->pressed(CAM_ROLL_RIGHT))
@@ -152,8 +152,8 @@ void Camera::update(int delta) {
 		    boundingX = -bounds;
 		}
 
-		if (maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
-        if (maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) translate(0, 0, displacement.z);
+		if (!maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
+        if (!maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction

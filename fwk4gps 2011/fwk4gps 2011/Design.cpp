@@ -20,6 +20,7 @@
 #include "iSoundCard.h"      // for the SoundCard Interface
 #include "iUtilities.h"      // for strcpy()
 #include "Maze.h"
+#include <ctime>
 
 #include "Design.h"          // for the Design class definition
 #include "MathDefinitions.h" // for MODEL_Z_AXIS
@@ -58,9 +59,11 @@ Design::Design(iContext* c) : context(c) {
     // pointers to the sounds
 
     // pointers to the text items
+	timerText = NULL;
 
     //maze
 	maze;
+	gameOver = false;
 
     // reference time
 	lastUpdate = 0;
@@ -104,6 +107,8 @@ bool Design::setup(void* hwnd) {
 void Design::initialize(int now) {
 
     coordinator->reset(now);
+	startTime = now;
+	timeLeft = TIME_LIMIT;
 
     // projection parameters
     //
@@ -133,8 +138,6 @@ void Design::initialize(int now) {
 
 
 
-
-
 	// create textures
 
     // create vertex lists
@@ -152,6 +155,8 @@ void Design::initialize(int now) {
 	// audio ------------------------------------------------------------------
 
     // Heads Up Display -------------------------------------------------------
+	
+	timerText = CreateText(RelRect(0, 0, 0.9f, 0.1f), L"");
 
 	// reference time
     lastUpdate = now;
@@ -177,12 +182,43 @@ void Design::reset(int now) {
 void Design::update(int now) {
 
     coordinator->update(now);
+	timeLeft = TIME_LIMIT - (difftime(lastUpdate, startTime)/1000);
+
+	int condition = maze->checkCondition();
+
+	if (!gameOver) {
+
+		if (timeLeft < 0 && condition <= 0) {
+
+			gameOver = true;
+		  strcpy(timerString, L"You lose...", 11);
+		} else {
+	
+			if (condition == 1) {
+			  gameOver = true;
+			  strcpy(timerString, L"You win!", 8);
+			} else if (condition == -1) {
+
+				// reset timer when user is at start point
+				startTime = now;
+				sprintf(timerString, timeLeft, L"");
+			} else {
+		
+			  sprintf(timerString, timeLeft, L"");
+			}
+		}
+	}
 
 	// audio ------------------------------------------------------------------
 
     // lighting ---------------------------------------------------------------
 
     // coordinator ------------------------------------------------------------------
+	    if (context->pressed(TOGGLE_COLLISION)) {
+          maze->toggleCollision(false);
+		} else {
+			maze->toggleCollision(true);
+		}
 
     // reference time
     lastUpdate = now;
@@ -210,10 +246,15 @@ void Design::render() {
     coordinator->render(TRANSLUCENT_OBJECT);
     display->set(ALPHA_BLEND, false);
     coordinator->render(SOUND);
+
     if (coordinator->hudIsOn()) {
         display->beginDraw(HUD_ALPHA);
-        // change the world
-        
+
+        if (timerText) {
+
+            timerText->set(timerString);
+            timerText->draw();
+        }
         display->endDraw();
     }
     display->endDrawFrame();
