@@ -127,11 +127,11 @@ void Maze::renderMaze() {
                 front = 1;
              }
 
-		     CreateObject(CreateWalls((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 8), &wallReflectivity);//->attach(wall);
+		     CreateObject(CreateFaces((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 2), &wallReflectivity)->attach(wall);
           }
           else {
 
-			  CreateObject(CreateWalls((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 8), &wallReflectivity);//->attach(wall);
+			  CreateObject(CreateFaces((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 2), &wallReflectivity);//->attach(wall);
           }
           
        }

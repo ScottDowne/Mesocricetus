@@ -233,9 +233,9 @@ int PrimitiveSet::add(const Vector& p, const Vector& n, float u, float v) {
 // (visible) face of the triangle on the host platform
 //
 void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3, 
- const Vector& p4, const Vector& n, int triangleCount) {
+ const Vector& p4, const Vector& n, int subdivide) {
 
-    if (triangleCount == 2)
+    if (subdivide == 0)
     {
        vertexList->add(p1, n, 0, 0);
        vertexList->add(p2, n, 0, 1);
@@ -246,44 +246,19 @@ void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3,
     }
     else
     {
-      subDivide(p1, p2, p3, n, triangleCount/2, true);
-      subDivide(p3, p4, p1, n, triangleCount/2, false);
+       Vector 
+          p12 = (p1 + p2) / 2,
+          p23 = (p2 + p3) / 2, 
+          p34 = (p3 + p4) / 2,
+          p41 = (p4 + p1) / 2, 
+          p13 = (p1 + p3) / 2;
+
+       --subdivide;
+      add(p1, p12, p13, p41, n, subdivide);
+      add(p12, p2, p23, p13, n, subdivide);
+      add(p13, p23, p3, p34, n, subdivide);
+      add(p41, p13, p34, p4, n, subdivide);
     }
-}
-
-void PrimitiveSet::subDivide(const Vector& p1, const Vector& p2, const Vector& p3, 
- const Vector& n, int triangleCount, bool top)
-{
-   if (triangleCount == 1)
-   {
-      if (top)
-      {
-         vertexList->add(p1, n, 0, 0);
-         vertexList->add(p2, n, 0, 1);
-         vertexList->add(p3, n, 1, 1);
-      }
-      else
-      {
-         vertexList->add(p1, n, 0, 0);
-         vertexList->add(p2, n, 1, 1);
-         vertexList->add(p3, n, 1, 0);
-      }
-   }
-   else
-   {
-      /*
-      Increase the triangle count by divding the longest side by two.
-      p1 *           * p2
-
-            * p4
-
-                  * p3
-      */
-      Vector p4 = (p1 + p3) /2;
-    
-      subDivide(p2, p4, p1, n, triangleCount/2, top);
-      subDivide(p3, p4, p2, n, triangleCount/2, top);
-   }
 }
 
 // getPosition returns the position of vertex i
@@ -345,23 +320,26 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
    maxy -= y;
    maxz -= z;
 
-   return CreateWalls(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
+   return CreateFaces(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
 }
 
-// CreateWalls builds a triangle vertex list for a brick-like box from
+// CreateFaces builds a triangle vertex list for a brick-like box from
 // two extreme points one face at a time with all faces having the same
 // attributes
 // Method accepts 
 // 1. flags for which faces to render
-// 2. resolution in terms of triangles per face
+// 2. subdivide in terms of triangles per face
 
-iGraphic* CreateWalls(float minx, float miny, float minz, float maxx, 
- float maxy, float maxz, int front, int right, int back, int left, int bottom, int top, int resolution) {
+iGraphic* CreateFaces(float minx, float miny, float minz, float maxx, 
+ float maxy, float maxz, int front, int right, int back, int left, int bottom, int top, int subdivide) {
 
-   resolution = 2 << (resolution-1);
+   subdivide = 2 << (subdivide-1);
+   int triangles = 2;
+
+   if (subdivide > 1) triangles <<= (2* subdivide);
 
    PrimitiveSet* primitiveSet = 
-   (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * resolution, LIT_VERTEX);
+   (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * triangles, LIT_VERTEX);
 
    Vector p1 = Vector(minx, miny, minz),
          p2 = Vector(minx, maxy, minz),
@@ -372,12 +350,12 @@ iGraphic* CreateWalls(float minx, float miny, float minz, float maxx,
          p7 = Vector(maxx, maxy, maxz),
          p8 = Vector(maxx, miny, maxz);
 
-   if (front)  primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1), resolution); // front
-   if (right)  primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0), resolution); // right
-   if (back)   primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1), resolution); // back
-   if (left)   primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0), resolution); // left
-   if (bottom) primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0), resolution); // bottom
-   if (top)    primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0), resolution); // top
+   if (front)  primitiveSet->add(p1, p2, p3, p4, Vector(0, 0, -1), subdivide); // front
+   if (right)  primitiveSet->add(p4, p3, p7, p8, Vector(1, 0,  0), subdivide); // right
+   if (back)   primitiveSet->add(p8, p7, p6, p5, Vector(0, 0,  1), subdivide); // back
+   if (left)   primitiveSet->add(p6, p2, p1, p5, Vector(-1, 0, 0), subdivide); // left
+   if (bottom) primitiveSet->add(p1, p4, p8, p5, Vector(0, -1, 0), subdivide); // bottom
+   if (top)    primitiveSet->add(p2, p6, p7, p3, Vector(0, 1,  0), subdivide); // top
 
    return primitiveSet;
 }
