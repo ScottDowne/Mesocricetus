@@ -7,8 +7,6 @@
  * copyright (c) 2011 Chris Szalwinski 
  * distributed under TPL - see ../Licenses.txt
  */
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include "iContext.h"        // for the Context Interface
 #include "iCoordinator.h"    // for the Coordinator Interface
@@ -18,6 +16,7 @@
 #include "Camera.h"          // for Camera class definition
 #include "MathDefinitions.h" // for math functions in coordinator coordinates
 #include "ModelSettings.h"   // for FLOOR, FORWARD_SPEED, ROT_SPEED, MAX_DESC
+
 //-------------------------------- Camera -------------------------------------
 //
 // The Camera class defines the structure of one viewpoint on the scene
@@ -52,15 +51,16 @@ Camera::Camera(iContext* c, Maze* m) : context(c) {
 // to the user's interventions
 //
 void Camera::update(int delta) {
+
    static bool jumping = false;
    static float last = 0;
+   static int lastdy = 0;
 
    int dx = 0, // pitch up/down
         dy = 0, // yaw left/right
         dz = 0; // advance/retreat
     int rx = 0,
-        ry = 0,
-        rz = 0;
+        ry = 0;
    float bounds = 0.2,
         boundingX = 0,
         boundingY = 0;
@@ -73,25 +73,24 @@ void Camera::update(int delta) {
       ry += mx * MOUSE_SPEED;
    if (my)
       rx += my * MOUSE_SPEED;
-   if (mz)
-      rz += mz * MOUSE_SPEED;
       
    // keyboard input
     if (context->pressed(CAM_STRAFE_LEFT))
         dx -= delta;
     if (context->pressed(CAM_STRAFE_RIGHT))
         dx += delta;
-/*    if (context->pressed(CAM_FLY_DOWN))
-        dy -= delta;
-    if (context->pressed(CAM_FLY_UP))
-        dy += delta*/;
     if (context->pressed(CAM_ADVANCE))
         dz += delta;
     if (context->pressed(CAM_RETREAT))
         dz -= delta;
+    if (context->pressed(CAM_PITCH_UP))
+        rx -= delta;
+    if (context->pressed(CAM_PITCH_DOWN))
+        rx += delta;
     if (context->pressed(CAM_JUMP) && jumping == false)
     {
       last = 0;
+      lastdy = 0;
       jumping = true;
     }
 
@@ -102,34 +101,40 @@ void Camera::update(int delta) {
     }
 
     // adjust camera orientation
-    if (rx || ry || rz) {
+   if (rx || ry) {
         // yaw left/right
       if (ry)
             rotatey(-ry * ANG_CAM_SPEED);
       // pitch up/down
         if (rx) 
-           rotate(orientation('x'), rx * ANG_CAM_SPEED);
-      //// roll left/right
-      //  if (rz) 
-      //      rotate(orientation('z'), rz * ANG_CAM_SPEED);
+            rotate(orientation('x'), rx * ANG_CAM_SPEED);
     }
+
    // adjust camera position
     if (dx || dy || dz) {
 
-      Vector displacement = 
-      (float) dx * CAM_SPEED * orientation('x') +
-      (float) dy * CAM_SPEED * orientation('y') + 
-      (float) dz * CAM_SPEED * orientation('z');
+        Vector displacement = 
+         (float) dx * CAM_SPEED * orientation('x') +
+         Vector(0,0,0) + 
+         (float) dz * CAM_SPEED * orientation('z');
 
-      translate(0, displacement.y, 0);
+      if (dy)
+      {
+         Vector pos = position();
+
+         if (lastdy < 0 && dy > 0)
+         {
+            translate(0, 4.0f - pos.y, 0);
+            jumping = false;
+         }
+         else
+         {
+            translate(0, dy * CAM_SPEED, 0);
+            lastdy = dy;
+         }
+      }
 
       Vector pos = position();
-
-      if (pos.y < 4.0f)
-      {
-         translate(0, 4.0f - pos.y, 0);
-         jumping = false;
-      }
 
       if (displacement.z > 0) {
       
@@ -146,9 +151,8 @@ void Camera::update(int delta) {
           boundingX = -bounds;
       }
 
-      if (!maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE) && 
-          !maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) 
-          translate(displacement.x, 0, displacement.z);
+      if (!maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
+        if (!maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) translate(0, 0, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction

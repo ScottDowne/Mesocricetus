@@ -600,106 +600,106 @@ bool Controller::setup(void* hwnd) {
     GUID guid    = none ? GUID_NULL : attached[ic].guid;
 
     // no controller selected
-    if (none)
-        rc = true;
-    // obtain an interface to the controller
-    else if (FAILED(di->CreateDevice(guid, &controller, NULL)))
-        error(L"Controller::10 Failed to create an Interface to controller");
-    // set the data format for the controller
-    else if (FAILED(controller->SetDataFormat(&c_dfDIJoystick2))) {
-        release();
-        error(L"Controller::11 Failed to set the data format for controller");
-    }
-    // set the cooperative level
-    else if (FAILED(controller->SetCooperativeLevel((HWND)hwnd, 
-	 DISCL_NONEXCLUSIVE | DISCL_FOREGROUND))) {
-        release();
-        error(L"Controller::12 Failed to set the behavior for controller");
-    }
-    else {
-        // retrieve the axes that are active on this device
-        DIDEVICEOBJECTINSTANCE didoi;
-        didoi.dwSize = sizeof didoi;
-        if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_X,
-         DIPH_BYOFFSET)))
-            axisIsActive[0] = true;
-        if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_Y,
-         DIPH_BYOFFSET)))
-            axisIsActive[1] = true;
-        if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_Z,
-         DIPH_BYOFFSET)))
-            axisIsActive[2] = true;
-        if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_RZ,
-         DIPH_BYOFFSET)))
-            axisIsActive[3] = true;
-        // ignore what GetObjectInfo returned if we don't want z axis
-        if (!zAxisOn) {
-            axisIsActive[2] = false;
-            axisIsActive[3] = false;
-        }
+  //  if (none)
+  //      rc = true;
+  //  // obtain an interface to the controller
+  //  else if (FAILED(di->CreateDevice(guid, &controller, NULL)))
+  //      error(L"Controller::10 Failed to create an Interface to controller");
+  //  // set the data format for the controller
+  //  else if (FAILED(controller->SetDataFormat(&c_dfDIJoystick2))) {
+  //      release();
+  //      error(L"Controller::11 Failed to set the data format for controller");
+  //  }
+  //  // set the cooperative level
+  //  else if (FAILED(controller->SetCooperativeLevel((HWND)hwnd, 
+	 //DISCL_NONEXCLUSIVE | DISCL_FOREGROUND))) {
+  //      release();
+  //      error(L"Controller::12 Failed to set the behavior for controller");
+  //  }
+  //  else {
+  //      // retrieve the axes that are active on this device
+  //      DIDEVICEOBJECTINSTANCE didoi;
+  //      didoi.dwSize = sizeof didoi;
+  //      if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_X,
+  //       DIPH_BYOFFSET)))
+  //          axisIsActive[0] = true;
+  //      if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_Y,
+  //       DIPH_BYOFFSET)))
+  //          axisIsActive[1] = true;
+  //      if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_Z,
+  //       DIPH_BYOFFSET)))
+  //          axisIsActive[2] = true;
+  //      if (SUCCEEDED(controller->GetObjectInfo(&didoi, DIJOFS_RZ,
+  //       DIPH_BYOFFSET)))
+  //          axisIsActive[3] = true;
+  //      // ignore what GetObjectInfo returned if we don't want z axis
+  //      if (!zAxisOn) {
+  //          axisIsActive[2] = false;
+  //          axisIsActive[3] = false;
+  //      }
 
-        // Set the range, deadzone, and saturation for each axis
+  //      // Set the range, deadzone, and saturation for each axis
 
-        DIPROPRANGE range;
+  //      DIPROPRANGE range;
 
-        range.diph.dwSize = sizeof range;
-        range.diph.dwHeaderSize = sizeof range.diph;
-        range.diph.dwObj = DIJOFS_X;
-        range.diph.dwHow = DIPH_BYOFFSET;
-        range.lMin = -100;
-        range.lMax =  100;
+  //      range.diph.dwSize = sizeof range;
+  //      range.diph.dwHeaderSize = sizeof range.diph;
+  //      range.diph.dwObj = DIJOFS_X;
+  //      range.diph.dwHow = DIPH_BYOFFSET;
+  //      range.lMin = -100;
+  //      range.lMax =  100;
 
-        DIPROPDWORD dead,
-                    sat;
+  //      DIPROPDWORD dead,
+  //                  sat;
 
-        dead.diph.dwSize = sizeof dead;
-        dead.diph.dwHeaderSize = sizeof dead.diph;
-        dead.diph.dwObj = DIJOFS_X;
-        dead.diph.dwHow = DIPH_BYOFFSET;
-        dead.dwData = 300; // hundredths of a percent [0,10000]
+  //      dead.diph.dwSize = sizeof dead;
+  //      dead.diph.dwHeaderSize = sizeof dead.diph;
+  //      dead.diph.dwObj = DIJOFS_X;
+  //      dead.diph.dwHow = DIPH_BYOFFSET;
+  //      dead.dwData = 300; // hundredths of a percent [0,10000]
 
-        sat = dead;
-        sat.dwData = 9800;
+  //      sat = dead;
+  //      sat.dwData = 9800;
 
-        if (axisIsActive[0]) {
-            controller->SetProperty(DIPROP_RANGE, &range.diph);
-            controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
-            controller->SetProperty(DIPROP_SATURATION, &sat.diph);
-        }
+  //      if (axisIsActive[0]) {
+  //          controller->SetProperty(DIPROP_RANGE, &range.diph);
+  //          controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
+  //          controller->SetProperty(DIPROP_SATURATION, &sat.diph);
+  //      }
 
-        if (axisIsActive[1]) {
-            range.diph.dwObj = DIJOFS_Y;
-            dead.diph.dwObj  = DIJOFS_Y;
-            sat.diph.dwObj   = DIJOFS_Y;
-            controller->SetProperty(DIPROP_RANGE, &range.diph);
-            controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
-            controller->SetProperty(DIPROP_SATURATION, &sat.diph);
-        }
+  //      if (axisIsActive[1]) {
+  //          range.diph.dwObj = DIJOFS_Y;
+  //          dead.diph.dwObj  = DIJOFS_Y;
+  //          sat.diph.dwObj   = DIJOFS_Y;
+  //          controller->SetProperty(DIPROP_RANGE, &range.diph);
+  //          controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
+  //          controller->SetProperty(DIPROP_SATURATION, &sat.diph);
+  //      }
 
-        if (axisIsActive[2]) {
-            range.diph.dwObj = DIJOFS_Z;
-            dead.diph.dwObj  = DIJOFS_Z;
-            sat.diph.dwObj   = DIJOFS_Z;
-            controller->SetProperty(DIPROP_RANGE, &range.diph);
-            controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
-            controller->SetProperty(DIPROP_SATURATION, &sat.diph);
-        }
+  //      if (axisIsActive[2]) {
+  //          range.diph.dwObj = DIJOFS_Z;
+  //          dead.diph.dwObj  = DIJOFS_Z;
+  //          sat.diph.dwObj   = DIJOFS_Z;
+  //          controller->SetProperty(DIPROP_RANGE, &range.diph);
+  //          controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
+  //          controller->SetProperty(DIPROP_SATURATION, &sat.diph);
+  //      }
 
-        if (axisIsActive[3]) {
-            range.diph.dwObj = DIJOFS_RZ;
-            dead.diph.dwObj  = DIJOFS_RZ;
-            sat.diph.dwObj   = DIJOFS_RZ;
-            controller->SetProperty(DIPROP_RANGE, &range.diph);
-            controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
-            controller->SetProperty(DIPROP_SATURATION, &sat.diph);
-        }
+  //      if (axisIsActive[3]) {
+  //          range.diph.dwObj = DIJOFS_RZ;
+  //          dead.diph.dwObj  = DIJOFS_RZ;
+  //          sat.diph.dwObj   = DIJOFS_RZ;
+  //          controller->SetProperty(DIPROP_RANGE, &range.diph);
+  //          controller->SetProperty(DIPROP_DEADZONE, &dead.diph);
+  //          controller->SetProperty(DIPROP_SATURATION, &sat.diph);
+  //      }
 
-		// try to acquire the controller
-		if (SUCCEEDED(controller->Acquire()))
-            rc = true;
-    }
+		//// try to acquire the controller
+		//if (SUCCEEDED(controller->Acquire()))
+  //          rc = true;
+  //  }
 
-    return rc;
+    return true;
 }
 
 // retrieve retrieves the current state of the controller and stores
