@@ -155,16 +155,16 @@ typedef enum Key {
     KEY_X,
     KEY_Y,
     KEY_Z,
-	KEY_1,
-	KEY_2,
-	KEY_3,
-	KEY_4,
-	KEY_5,
-	KEY_6,
-	KEY_7,
-	KEY_8,
-	KEY_9,
-	KEY_0,
+   KEY_1,
+   KEY_2,
+   KEY_3,
+   KEY_4,
+   KEY_5,
+   KEY_6,
+   KEY_7,
+   KEY_8,
+   KEY_9,
+   KEY_0,
     KEY_F1,
     KEY_F2,
     KEY_F3,
@@ -195,37 +195,37 @@ typedef enum Key {
     KEY_NUM8,
     KEY_NUM9,
     KEY_ESCAPE,
-	KEY_SEMICOLON,
-	KEY_APOSTROPHE,
-	KEY_O_BRACKET,
-	KEY_C_BRACKET,
-	KEY_BACKSLASH,
-	KEY_COMMA,
-	KEY_PERIOD,
-	KEY_SLASH,
-	KEY_TIMES,
-	KEY_GRAVE,
-	KEY_MINUS,
-	KEY_UNDERSCORE,
-	KEY_EQUALS,
-	KEY_PLUS
+   KEY_SEMICOLON,
+   KEY_APOSTROPHE,
+   KEY_O_BRACKET,
+   KEY_C_BRACKET,
+   KEY_BACKSLASH,
+   KEY_COMMA,
+   KEY_PERIOD,
+   KEY_SLASH,
+   KEY_TIMES,
+   KEY_GRAVE,
+   KEY_MINUS,
+   KEY_UNDERSCORE,
+   KEY_EQUALS,
+   KEY_PLUS
 } Key;
 
 // mappable keys for configurable actions as listed in the user dialog
 //
 #define KEY_DESCRIPTIONS {\
-	L"A", L"B", L"C", L"D", L"E", L"F", L"G", L"H", L"I", L"J", \
-	L"K", L"L", L"M", L"N", L"O", L"P", L"Q", L"R", L"S", L"T", \
-	L"U", L"V", L"W", L"X", L"Y", L"Z", \
-	L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9", L"0", \
-	L"F1", L"F2", L"F3", L"F4", L"F5", L"F6", L"F7", \
-	L"F8", L"F9", L"F10", L"F11", L"F12", \
-	L"Space", L"Enter", L"Up", L"Down", L"PageUp", L"PageDown", \
-	L"Left", L"Right", \
-	L"NumPad 1", L"NumPad 2", L"NumPad 3", L"NumPad 4", L"NumPad 5", \
-	L"NumPad 6", L"NumPad 7", L"NumPad 8", L"NumPad 9", \
-	L"Escape", L";", L"'", L"[", L"]", L"\\", L",", \
-	L".", L"/", L"*", L"`", L"-", L"_", L"=", L"+" \
+   L"A", L"B", L"C", L"D", L"E", L"F", L"G", L"H", L"I", L"J", \
+   L"K", L"L", L"M", L"N", L"O", L"P", L"Q", L"R", L"S", L"T", \
+   L"U", L"V", L"W", L"X", L"Y", L"Z", \
+   L"1", L"2", L"3", L"4", L"5", L"6", L"7", L"8", L"9", L"0", \
+   L"F1", L"F2", L"F3", L"F4", L"F5", L"F6", L"F7", \
+   L"F8", L"F9", L"F10", L"F11", L"F12", \
+   L"Space", L"Enter", L"Up", L"Down", L"PageUp", L"PageDown", \
+   L"Left", L"Right", \
+   L"NumPad 1", L"NumPad 2", L"NumPad 3", L"NumPad 4", L"NumPad 5", \
+   L"NumPad 6", L"NumPad 7", L"NumPad 8", L"NumPad 9", \
+   L"Escape", L";", L"'", L"[", L"]", L"\\", L",", \
+   L".", L"/", L"*", L"`", L"-", L"_", L"=", L"+" \
 }
 
 // Actions
@@ -238,104 +238,103 @@ typedef enum Key {
 //
 // enumeration constants
 typedef enum Action {
-	MDL_ROLL_BOXES,
-	MDL_SPIN_LEFT,
-	MDL_SPIN_TOP,
-    MDL_SPIN_SPOT_P,
-    MDL_SPIN_SPOT_N,
-    MDL_NEW_OBJECT,
-    MDL_NEW_SOUND,
-    MDL_NEW_LIGHT,
-    MDL_DET_CHILD,
-    MDL_ATT_CHILD,
-	CAM_PITCH_UP,
-	CAM_PITCH_DOWN,
-	CAM_YAW_LEFT,
-	TOGGLE_COLLISION,
-	CAM_ADVANCE,
-	CAM_RETREAT,
+   CAM_PITCH_UP,
+   CAM_PITCH_DOWN,
+   CAM_YAW_LEFT,
+   TOGGLE_COLLISION,
+   CAM_ADVANCE,
+   CAM_RETREAT,
     CAM_ROLL_LEFT,
     CAM_ROLL_RIGHT,
     CAM_STRAFE_LEFT,
     CAM_STRAFE_RIGHT,
-    CAM_STRAFE_LEFT_ALT,
-    CAM_STRAFE_RIGHT_ALT,
     CAM_FLY_UP,
     CAM_FLY_DOWN,
-	AUD_BKGRD,
-	AUD_IMPLS,
-	AUD_VOLUME_INC,
-	AUD_VOLUME_DEC,
-	AUD_SPEED_UP,
-	AUD_SLOW_DOWN,
-	LIGHT_POINT,
-	LIGHT_SPOT,
-	LIGHT_DISTANT,
+   AUD_BKGRD,
+   AUD_IMPLS,
+   AUD_VOLUME_INC,
+   AUD_VOLUME_DEC,
+   AUD_SPEED_UP,
+   AUD_SLOW_DOWN,
+   LIGHT_POINT,
+   LIGHT_SPOT,
+   LIGHT_DISTANT,
     LIGHT_CLONE,
-	HUD_DISPLAY,
-	HUD_LEFT,
-	HUD_RIGHT,
-	HUD_UP,
-	HUD_DOWN,
+   HUD_DISPLAY,
+   HUD_LEFT,
+   HUD_RIGHT,
+   HUD_UP,
+   HUD_DOWN,
     CAMERA_SELECT,
-    ADJUST_PROJECTOR
+    CAM_JUMP
 } Action;
 
 // user friendly descriptions of actions
 //
 #define ACTION_DESCRIPTIONS {\
-	L"Roll Boxes",   \
-	L"Spin Left Box",\
-	L"Spin Top Box", \
-    L"Spin Spot Light +", \
-    L"Spin Spot Light -", \
-    L"Clone Right Box", \
-    L"Clone Left Sound", \
-    L"Clone SpotLight", \
-    L"Detach Child Box", \
-    L"Attach Child Box", \
-	L"Pitch Up",     \
-	L"Pitch Down",   \
-	L"Yaw Left",     \
-	L"Toggle Collision",    \
-	L"Move Camera Forward",     \
-	L"Move Camera Backward",    \
+   L"Look Up",     \
+   L"Look Down",   \
+   L"Yaw Left",     \
+   L"Toggle Collision",    \
+   L"Move Camera Forward",     \
+   L"Move Camera Backward",    \
     L"Roll Camera Left", \
     L"Roll Camera Right", \
     L"Strafe Camera Left", \
     L"Strafe Camera Right", \
-    L"Strafe Camera Left Alt", \
-    L"Strafe Camera Right Alt", \
     L"Fly Camera Up", \
     L"Fly Camera Down", \
-	L"Toggle Background Sound", \
-	L"Explosion Sound", \
-	L"Increase Volume", \
-	L"Decrease Volume", \
-	L"Speed Up Sound",  \
-	L"Slow Down Sound", \
-	L"Toggle Point Light",   \
-	L"Toggle Spot Light",    \
-	L"Toggle Distant Light", \
+   L"Toggle Background Sound", \
+   L"Explosion Sound", \
+   L"Increase Volume", \
+   L"Decrease Volume", \
+   L"Speed Up Sound",  \
+   L"Slow Down Sound", \
+   L"Toggle Point Light",   \
+   L"Toggle Spot Light",    \
+   L"Toggle Distant Light", \
     L"Toggle Cloned Light", \
-	L"Toggle Heads Up Display",      \
-	L"Heads Up Display - Move Left", \
-	L"Heads Up Display - Move Right",\
-	L"Heads Up Display - Move Up",   \
-	L"Heads Up Display - Move Down",  \
+   L"Toggle Heads Up Display",      \
+   L"Heads Up Display - Move Left", \
+   L"Heads Up Display - Move Right",\
+   L"Heads Up Display - Move Up",   \
+   L"Heads Up Display - Move Down",  \
     L"Select Camera", \
-    L"Adjust Projector" \
+    L"Jump" \
 }
 
 // initial mappings of actions to keys
 //
-#define ACTION_MAPPINGS {KEY_R, KEY_T, KEY_Y, KEY_SEMICOLON, KEY_BACKSLASH, KEY_U, KEY_I, KEY_O, KEY_P, KEY_V, \
-    KEY_PGUP, KEY_PGDN, KEY_Z, KEY_C, KEY_W, KEY_S, KEY_Q, KEY_E, KEY_A, KEY_D, KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, \
-	KEY_F3, KEY_F4, KEY_F6, KEY_F7, KEY_W, KEY_S, \
-    KEY_J, KEY_K, KEY_L, KEY_H, \
-    KEY_F, KEY_V,   \
-	KEY_B, KEY_N, KEY_M, \
-    KEY_X, KEY_1 }
+#define ACTION_MAPPINGS {\
+   KEY_PGUP, \
+   KEY_PGDN, \
+   KEY_Z, \
+   KEY_C, \
+   KEY_W, \
+   KEY_S, \
+   KEY_Q, \
+   KEY_E, \
+   KEY_A, \
+   KEY_D, \
+   KEY_UP, \
+   KEY_DOWN, \
+   KEY_F3, \
+   KEY_F4, \
+   KEY_F6, \
+   KEY_F7, \
+   KEY_W, \
+   KEY_S, \
+   KEY_J, \
+   KEY_K, \
+   KEY_L, \
+   KEY_H, \
+   KEY_F, \
+   KEY_V, \
+   KEY_B, \
+   KEY_N, \
+   KEY_M, \
+   KEY_X, \
+   KEY_SPACE}
 
 // Mouse Buttons
 //
@@ -412,7 +411,7 @@ typedef enum RenderState {
 //
 typedef enum SoundType {
     LOCAL_SOUND,  // stationary 3D
-	MOBILE_SOUND, // mobile 3D
+   MOBILE_SOUND, // mobile 3D
     GLOBAL_SOUND  // ambient
 } SoundType;
 
@@ -433,21 +432,21 @@ typedef enum LightType {
 // - reset MAX_DESC above if necessary 
 //
 typedef enum ModelSound {
-	SND_BKGRD,
-	SND_DISCR,
-	SND_OBJECT,
-	SND_LOCAL_L,
-	SND_LOCAL_R
+   SND_BKGRD,
+   SND_DISCR,
+   SND_OBJECT,
+   SND_LOCAL_L,
+   SND_LOCAL_R
 } ModelSound;
 
 // friendly descriptions of configurable sounds as listed in the user dialog 
 //
 #define SOUND_DESCRIPTIONS {\
-	L"Background",\
-	L"Discrete",\
-	L"Object",\
-	L"Local Left",\
-	L"Local Right"\
+   L"Background",\
+   L"Discrete",\
+   L"Object",\
+   L"Local Left",\
+   L"Local Right"\
 }
 
 // initial selection of configurable sounds 
@@ -455,11 +454,11 @@ typedef enum ModelSound {
 // include the authors name for CCS+ accreditation
 //
 #define SOUND_MAPPINGS {\
-	L"Crickets (by reinsamba) .xwma",\
-	L"Gong (by reinsamba) .xwma",\
-	L"Goat (by reinsamba) .xwma",\
-	L"Street_accordeonist (by reinsamba) .xwma",\
-	L"Fortaleza election campaign (by reinsamba) .xwma",\
+   L"Crickets (by reinsamba) .xwma",\
+   L"Gong (by reinsamba) .xwma",\
+   L"Goat (by reinsamba) .xwma",\
+   L"Street_accordeonist (by reinsamba) .xwma",\
+   L"Fortaleza election campaign (by reinsamba) .xwma",\
 }
 
 // Dialog options
