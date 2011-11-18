@@ -227,7 +227,7 @@ int PrimitiveSet::add(const Vector& p, const Vector& n, float u, float v) {
     return vertexList->add(p, n, u, v);
 }
 
-// adds six vertices to the vertex list describing a quadrilateral that
+// adds aleast six vertices to the vertex list describing a quadrilateral that
 // has been defined in terms of four Vectors and a normal vector - the 
 // ordering of the vertices in each triangle of the quad exposes the front
 // (visible) face of the triangle on the host platform
@@ -246,6 +246,13 @@ void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3,
     }
     else
     {
+       /*
+       p4------p34------p3
+       |       |        |
+       p41----p13------p23
+       |       |        |
+       p1------p12------p2
+       */
        Vector 
           p12 = (p1 + p2) / 2,
           p23 = (p2 + p3) / 2, 
@@ -253,7 +260,7 @@ void PrimitiveSet::add(const Vector& p1, const Vector& p2, const Vector& p3,
           p41 = (p4 + p1) / 2, 
           p13 = (p1 + p3) / 2;
 
-       --subdivide;
+      --subdivide;
       add(p1, p12, p13, p41, n, subdivide);
       add(p12, p2, p23, p13, n, subdivide);
       add(p13, p23, p3, p34, n, subdivide);
@@ -333,10 +340,12 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
 iGraphic* CreateFaces(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz, int front, int right, int back, int left, int bottom, int top, int subdivide) {
 
-   subdivide = 2 << (subdivide-1);
    int triangles = 2;
 
-   if (subdivide > 1) triangles <<= (2* subdivide);
+   if (subdivide > 1)
+   {
+      triangles <<= (2* subdivide);
+   }
 
    PrimitiveSet* primitiveSet = 
    (PrimitiveSet*)CreatePrimitiveSet(TRIANGLE_LIST, (front + right + back + left + bottom + top) * triangles, LIT_VERTEX);

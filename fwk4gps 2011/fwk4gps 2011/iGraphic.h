@@ -52,7 +52,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
 
 iGraphic* CreateFaces(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz, int front, int right, int back, int left, int bottom, int top,
- int resolution = 0);
+ int subdivide = 0);
 
 iGraphic* CreateGrid(int min, int y, int max, int n);
 
