@@ -38,7 +38,7 @@
 #define MOUSE_SPEED             10
 #define MOUSE_BUTTON_SCALE      10
 // controller conversion factors
-#define CTR_SPEED               0.05f
+#define CTR_SPEED               0.005f
 #define CTR_DISPLACEMENT_FACTOR 0.015f 
 #define CTR_ROTATION_FACTOR     0.015f 
 

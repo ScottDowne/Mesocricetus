@@ -285,6 +285,7 @@ void UserDialog::populateControllerList(void* hwndw) {
             // store the controller index in the data part
 		    SendDlgItemMessage(hwnd, IDC_CNT, CB_SETITEMDATA, ctr, 
 		     (LPARAM)ic);
+    SendDlgItemMessage(hwnd, IDC_CNT, CB_SETCURSEL, ctr,(LPARAM)ic);
             atLeastOne = true;
         }
 	}
@@ -295,7 +296,7 @@ void UserDialog::populateControllerList(void* hwndw) {
          (LPARAM)controller);
 		if (ctr == CB_ERR) 
             ctr = 0;
-		SendDlgItemMessage(hwnd, IDC_CNT, CB_SETCURSEL, ctr, 0);
+		//SendDlgItemMessage(hwnd, IDC_CNT, CB_SETCURSEL, ctr, 0);
         // retrieve the index of the controller for the default line item
         int ic = SendDlgItemMessage(hwnd, IDC_CNT, CB_GETITEMDATA, ctr, 0);
         // if choice is an attached controller
@@ -600,7 +601,7 @@ bool UserDialog::saveUserChoices(void* hwndw) {
         // retrieve the index of the selected controller
         int ic = SendDlgItemMessage(hwnd, IDC_CNT, CB_GETITEMDATA, ctr, 0L);
         none = ic == NO_CONTROLLER;
-		if (!none) {
+		/*if (!none) {
 			// retrieve the selected trigger button
 			trg = SendDlgItemMessage(hwnd, IDC_TRG, CB_GETCURSEL, 0, 0L);
 			if (trg == CB_ERR) {
@@ -621,16 +622,16 @@ bool UserDialog::saveUserChoices(void* hwndw) {
             b  = trg = 0;
             y  = z   = false;
             ic = 0;
-        }
+        }*/
 
 		// (re-)define the controller aspect of the context
-        flags = ((y ? 1 : 0) << 2) | ((z ? 1 : 0) << 1) | (none ? 1 : 0);
+        //flags = ((y ? 1 : 0) << 2) | ((z ? 1 : 0) << 1) | (none ? 1 : 0);
         context->set(GF_CT_INDX, ic);
         context->set(GF_CT_TGRB, b);
-        context->set(GF_CT_FLGS, flags);
+        //context->set(GF_CT_FLGS, flags);
         // store descriptions for future initialization
 		SendDlgItemMessage(hwnd, IDC_CNT, CB_GETLBTEXT, ctr, (LPARAM)controller);
-		SendDlgItemMessage(hwnd, IDC_TRG, CB_GETLBTEXT, trg, (LPARAM)trigger);
+		//SendDlgItemMessage(hwnd, IDC_TRG, CB_GETLBTEXT, trg, (LPARAM)trigger);
 
 		rcc = true;
     }

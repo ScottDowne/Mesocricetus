@@ -43,7 +43,7 @@
 #define MAX_INTEGERS     40
 #define MAX_FLOATS       10
 #define MAX_VECTORS       4
-#define MAX_BOOL_ARRAYS   3
+#define MAX_BOOL_ARRAYS   4
 #define MAX_INT_ARRAYS    4
 #define MAX_STR_ARRAYS    8
 #define MAX_ADAPTERS     10
@@ -53,6 +53,7 @@
 #define MAX_M_BUTTONS     3
 #define MAX_C_BUTTONS   128
 #define MAX_CONTROLLERS  10
+#define MAX_XBOX_CONTROLLERS  4
 
 typedef enum Integer {
     GF_AU_FREQ,
@@ -75,6 +76,10 @@ typedef enum Integer {
     GF_MS_DSPX,
     GF_MS_DSPY,
     GF_MS_ROTZ,
+	GF_XB_STLY,
+	GF_XB_STLX,
+	GF_XB_STRY,
+	GF_XB_STRX,
     GF_CT_INDX,
     GF_CT_TGRB,
     GF_CT_FLGS,
@@ -107,7 +112,8 @@ typedef enum VectorId {
 typedef enum BoolArray {
     GF_KB_KEYS, // key states
     GF_MS_BTNS, // mouse button states
-    GF_CT_BTNS  // controller button states
+    GF_CT_BTNS, // controller button states
+	GF_XB_BTNS  // XBox controller button states
 } BoolArray;
 
 typedef enum IntArray {
@@ -356,12 +362,29 @@ typedef enum CntlrButton {
     BUTTON_7,
     BUTTON_8,
     BUTTON_9,
-    BUTTON_10,
+	BUTTON_10,
     NORTH,
     EAST,
     WEST,
     SOUTH
-} CntrlrButton;
+} CntlrButton;
+
+typedef enum XboxCntlrButton {
+    A_BUTTON,
+    B_BUTTON,
+    X_BUTTON,
+    Y_BUTTON,
+    START_BUTTON,
+    BACK_BUTTON,
+    LEFT_THUMB,
+    RIGHT_THUMB,
+    LEFT_SHOULDER,
+    RIGHT_SHOULDER,
+    UP_DPAD,
+    DOWN_DPAD,
+    LEFT_DPAD,
+    RIGHT_DPAD
+} XboxCntlrButton;
 
 // Drawing Selection Categories
 //

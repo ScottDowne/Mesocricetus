@@ -73,21 +73,35 @@ void Camera::update(int delta) {
       ry += mx * MOUSE_SPEED;
    if (my)
       rx += my * MOUSE_SPEED;
+
+     mx = context->get(GF_XB_STLX);
+     my = context->get(GF_XB_STLY);
+   if (mx)
+      ry += mx * CTR_SPEED;
+   if (my)
+      rx -= my * CTR_SPEED;
+
+     mx = context->get(GF_XB_STRX);
+     my = context->get(GF_XB_STRY);
+   if (mx)
+      ry += mx * CTR_SPEED;
+   if (my)
+      rx -= my * CTR_SPEED;
       
    // keyboard input
-    if (context->pressed(CAM_STRAFE_LEFT))
+    if ((context->pressed(RIGHT_DPAD) || context->pressed(CAM_STRAFE_LEFT)))
         dx -= delta;
-    if (context->pressed(CAM_STRAFE_RIGHT))
+    if ((context->pressed(LEFT_DPAD) || context->pressed(CAM_STRAFE_RIGHT)))
         dx += delta;
-    if (context->pressed(CAM_ADVANCE))
+    if ((context->pressed(UP_DPAD) || context->pressed(CAM_ADVANCE)))
         dz += delta;
-    if (context->pressed(CAM_RETREAT))
+    if ((context->pressed(DOWN_DPAD) || context->pressed(CAM_RETREAT)))
         dz -= delta;
     if (context->pressed(CAM_PITCH_UP))
         rx -= delta;
     if (context->pressed(CAM_PITCH_DOWN))
         rx += delta;
-    if (context->pressed(CAM_JUMP) && jumping == false)
+	if ((context->pressed(CAM_JUMP) || context->pressed(A_BUTTON)) && jumping == false)
     {
       last = 0;
       lastdy = 0;
@@ -96,7 +110,7 @@ void Camera::update(int delta) {
 
     if (jumping)
     {
-       last += (delta/1000.0f);
+       last += (delta/300.0f);
        dy += SCALE * sinf(3.1415927f * last / 2);
     }
 
@@ -129,7 +143,7 @@ void Camera::update(int delta) {
          }
          else
          {
-            translate(0, dy * CAM_SPEED, 0);
+            translate(0, dy * 0.09f, 0);
             lastdy = dy;
          }
       }

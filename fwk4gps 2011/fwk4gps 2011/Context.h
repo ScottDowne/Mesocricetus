@@ -58,6 +58,7 @@ class Context : public iContext {
     bool   pressed(Action a) const                  { return boolArray[GF_KB_KEYS][intArray[GF_KEYCODES][a]]; }
     bool   pressed(MouseButton b) const             { return boolArray[GF_MS_BTNS][b]; }
     bool   pressed(CntlrButton c) const             { return boolArray[GF_CT_BTNS][c]; }
+    bool   pressed(XboxCntlrButton d) const         { return boolArray[GF_XB_BTNS][d]; }
     bool   pressed() const                          { return boolArray[GF_CT_BTNS][integer[GF_CT_TGRB]]; }
     // termination function
 	void   Delete() const { delete this; }

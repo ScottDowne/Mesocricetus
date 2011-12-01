@@ -50,6 +50,7 @@ Context::Context() {
     // allocate context memory for controller button states
     alloc(GF_CT_BTNS, MAX_C_BUTTONS);
     set(GF_CT_BCNT, MAX_C_BUTTONS);
+    alloc(GF_XB_BTNS, MAX_C_BUTTONS);
 
     // allocate context memory for adapter descriptions
     alloc(GF_ADPDESC, MAX_ADAPTERS, NULL);

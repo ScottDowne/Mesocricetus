@@ -214,7 +214,7 @@ void Design::update(int now) {
     // lighting ---------------------------------------------------------------
 
     // coordinator ------------------------------------------------------------------
-	    if (context->pressed(TOGGLE_COLLISION)) {
+	    if (context->pressed(TOGGLE_COLLISION) || context->pressed(X_BUTTON)) {
           maze->toggleCollision(false);
 		} else {
 			maze->toggleCollision(true);

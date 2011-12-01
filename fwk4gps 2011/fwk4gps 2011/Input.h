@@ -19,6 +19,7 @@
 #define  INITGUID          // enables access to GUIDs used by DirectInput
 #define  DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>        // for basic Direct Input
+#include <xinput.h>        // for XBox controllers
 #undef   INITGUID
 
 #include "iInput.h"        // for Keyboard, Mouse, and Controller Interfaces
@@ -102,6 +103,7 @@ class Controller : public iController {
     iContext*            context;    // points to the Context object
     LPDIRECTINPUT8       di;         // points to the Direct Input object
     LPDIRECTINPUTDEVICE8 controller; // points to the Direct Input controller
+	XINPUT_STATE         xInput;     // points to the XInput controller
 
 	// interrogation
 	ControllerDesc*      attached;   // points to descriptions of all 

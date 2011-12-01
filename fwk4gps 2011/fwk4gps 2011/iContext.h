@@ -24,6 +24,7 @@ enum StrArray;
 enum Action;
 enum MouseButton;
 enum CntlrButton;
+enum XboxCntlrButton;
 struct Vector;
 
 class iContext {
@@ -46,6 +47,7 @@ class iContext {
     virtual bool   pressed(Action) const                              = 0;
     virtual bool   pressed(MouseButton) const                         = 0;
     virtual bool   pressed(CntlrButton) const                         = 0;
+    virtual bool   pressed(XboxCntlrButton) const                     = 0;
     virtual bool   pressed() const                                    = 0;
     // termination function
 	virtual void   Delete() const                                     = 0;

@@ -14,7 +14,7 @@
 #include "iContext.h"      // for the Context Interface
 #include "iUtilities.h"    // for error()
 #include "Configuration.h" // for Mappable Keys KEY_?
-
+#include <stdio.h>
 const GUID GUID_NULL = { 0, 0, 0, { 0, 0, 0, 0, 0, 0, 0, 0 } };
 
 BOOL CALLBACK countControllers(LPCDIDEVICEINSTANCE didesc, void* count);
@@ -493,6 +493,8 @@ Controller::Controller(void* hinst, iContext* c) : context(c) {
     controller = NULL;
     axisIsActive[0] = axisIsActive[1] = axisIsActive[2] = axisIsActive[3] = 
      povIsActive = reversey = false;
+	
+    ZeroMemory( &xInput, sizeof(XINPUT_STATE) );
 }
 
 // interrogate populates the descriptions of all attached controllers
@@ -501,9 +503,9 @@ bool Controller::interrogate(void* hwnd) {
 
     bool rc    = false;
     int  count = 0;
-
+	
 	// find the number of attached controllers and allocate memory
-    di->EnumDevices(DI8DEVCLASS_GAMECTRL, 
+    /*di->EnumDevices(DI8DEVCLASS_GAMECTRL, 
 	 (LPDIENUMDEVICESCALLBACK)countControllers, (void*)&count, 
 	 DIEDFL_ATTACHEDONLY);
     if (attached) 
@@ -555,7 +557,32 @@ bool Controller::interrogate(void* hwnd) {
         }
     }
 
-    return rc || count == 0;
+    return rc || count == 0;*/
+
+	DWORD dwResult;    
+    for (DWORD i=0; i< MAX_XBOX_CONTROLLERS; i++ )
+    {
+      XINPUT_STATE state;
+      ZeroMemory( &state, sizeof(XINPUT_STATE) );
+
+      // Simply get the state of the controller from XInput.
+      dwResult = XInputGetState( i, &state );
+
+      if( dwResult == ERROR_SUCCESS )
+      { 
+            rc = true;
+			count++;
+			wchar_t* desc = L"XBox controller";
+            context->set(GF_CTRDESC, i, desc);
+      }
+      else
+      {
+            // Controller is not connected 
+      }
+    }
+
+	context->set(GF_CT_CCNT, count);
+	return rc || count == 0;
 }
 
 // countControllers increments the counter stored in address a
@@ -591,14 +618,28 @@ bool Controller::setup(void* hwnd) {
     release();
 
     // retrieve the controller context
-    int  ic      = context->get(GF_CT_INDX);
-    int  button  = context->get(GF_CT_TGRB);
-    int  flags   = context->get(GF_CT_FLGS);
-    bool none    = flags & 1;
-    bool zAxisOn = !!(flags & 2);
-    reversey     = !!(flags & 4);
-    GUID guid    = none ? GUID_NULL : attached[ic].guid;
+	/*DWORD i = 0;
+    //int  button  = context->get(GF_CT_TGRB);
+    //int  flags   = context->get(GF_CT_FLGS);
+    //bool none    = flags & 1;
+    //bool zAxisOn = !!(flags & 2);
+    //reversey     = !!(flags & 4);
+    //GUID guid    = none ? GUID_NULL : attached[ic].guid;
 
+	i = XInputGetState( ic, &xInput );
+
+	if( i == ERROR_SUCCESS )
+      { 
+            //rc = true;
+			///count++;
+			//wchar_t* desc = L"XBox controller";
+            //context->set(GF_CTRDESC, i, desc);
+      }
+      else
+      {
+		  printf( "error" );
+            // Controller is not connected 
+      }*/
     // no controller selected
   //  if (none)
   //      rc = true;
@@ -707,7 +748,68 @@ bool Controller::setup(void* hwnd) {
 //
 void Controller::retrieveInput() {
 
-    HRESULT hr;
+	
+    // buttons currently pressed
+    //for (int i = 0; i < MAX_C_BUTTONS; i++)
+    int  ic      = context->get(GF_CT_INDX);
+	XInputGetState( ic, &xInput );
+
+	int stlx = xInput.Gamepad.sThumbLX;
+	int stly = xInput.Gamepad.sThumbLY;
+	
+	if (stlx <= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && stlx >= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+	  stlx = 0;
+	}
+	if (stly <= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && stly >= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+	  stly = 0;
+	}
+
+    context->set(GF_XB_STLX, stlx);
+    context->set(GF_XB_STLY, stly);
+
+	int strx = xInput.Gamepad.sThumbRX;
+	int stry = xInput.Gamepad.sThumbRY;
+	
+	if (strx <= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && strx >= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
+	  strx = 0;
+	}
+	if (stry <= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && stry >= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
+	  stry = 0;
+	}
+
+    context->set(GF_XB_STRX, strx);
+    context->set(GF_XB_STRY, stry);
+
+	int up = ( xInput.Gamepad.wButtons & 0x00000001 );
+    context->set(GF_XB_BTNS, UP_DPAD, up != 0);
+	int down = ( xInput.Gamepad.wButtons & 0x00000002 );
+    context->set(GF_XB_BTNS, DOWN_DPAD, down != 0);
+	int left = ( xInput.Gamepad.wButtons & 0x00000004 );
+    context->set(GF_XB_BTNS, RIGHT_DPAD, left != 0);
+	int right = ( xInput.Gamepad.wButtons & 0x00000008 );
+    context->set(GF_XB_BTNS, LEFT_DPAD, right != 0);
+	int start = ( xInput.Gamepad.wButtons & 0x00000010 );
+    context->set(GF_XB_BTNS, START_BUTTON, start != 0);
+	int back = ( xInput.Gamepad.wButtons & 0x00000020 );
+    context->set(GF_XB_BTNS, BACK_BUTTON, back != 0);
+	int leftThumb = ( xInput.Gamepad.wButtons & 0x00000040 );
+    context->set(GF_XB_BTNS, LEFT_THUMB, leftThumb != 0);
+	int rightThumb = ( xInput.Gamepad.wButtons & 0x00000080 );
+    context->set(GF_XB_BTNS, RIGHT_THUMB, rightThumb != 0);
+	int leftShoulder = ( xInput.Gamepad.wButtons & 0x0100 );
+    context->set(GF_XB_BTNS, LEFT_SHOULDER, leftShoulder != 0);
+	int rightShoulder = ( xInput.Gamepad.wButtons & 0x0200 );
+    context->set(GF_XB_BTNS, RIGHT_SHOULDER, rightShoulder != 0);
+	int a = ( xInput.Gamepad.wButtons & 0x1000 );
+    context->set(GF_XB_BTNS, A_BUTTON, a != 0);
+	int b = ( xInput.Gamepad.wButtons & 0x2000 );
+    context->set(GF_XB_BTNS, B_BUTTON, b != 0);
+	int x = ( xInput.Gamepad.wButtons & 0x4000 );
+    context->set(GF_XB_BTNS, X_BUTTON, x != 0);
+	int y = ( xInput.Gamepad.wButtons & 0x8000 );
+    context->set(GF_XB_BTNS, Y_BUTTON, y != 0);
+
+    /*HRESULT hr;
     DIJOYSTATE2 state;
 
     if (controller) {
@@ -739,14 +841,14 @@ void Controller::retrieveInput() {
             context->set(GF_CT_DSPZ, z);
             context->set(GF_CT_ROTZ, r);
         }
-    }
+    }*/
 }
 
 // suspends unacquires the controller in preparation for loss of focus
 //
 void Controller::suspend() {
 
-    if (controller) controller->Unacquire();
+    //if (controller) controller->Unacquire();
 }
 
 // restore re-acquires the controller
@@ -755,14 +857,14 @@ bool Controller::restore() {
 
     bool rc = true;
 
-    if (controller) {
+    /*if (controller) {
 		HRESULT hr = controller->Acquire();
 		if (hr != S_OK && hr != S_FALSE && hr != DIERR_OTHERAPPHASPRIO) {
             release();
             error(L"Controller::70 Failed to re-acquire the controller");
             rc = false;
         }
-    }
+    }*/
 
     return rc;
 }
@@ -772,11 +874,11 @@ bool Controller::restore() {
 //
 void Controller::release() {
 
-    suspend();
+    /*suspend();
 	if (controller) {
         controller->Release();
         controller = NULL;
-    }
+    }*/
 }
 
 // destructor releases the controller object, disengages the interface
@@ -785,11 +887,11 @@ void Controller::release() {
 //
 Controller::~Controller() {
 
-    release();
+    /*release();
     if (di) {
         di->Release();
         di = NULL;
     }
     if (attached)
-        delete [] attached;
+        delete [] attached;*/
 }
