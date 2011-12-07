@@ -39,7 +39,7 @@ class Design : public iDesign {
     iCamera*  camera;          // points to the camera
 	
     iText*  timerText;
-
+	iSound* midi;
 
     int lastUpdate;      // time that the coordinator was last updated
 	int startTime;

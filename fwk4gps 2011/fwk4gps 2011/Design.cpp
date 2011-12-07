@@ -61,6 +61,8 @@ Design::Design(iContext* c) : context(c) {
     // pointers to the text items
 	timerText = NULL;
 
+	midi = NULL;
+
     //maze
 	maze;
 	gameOver = false;
@@ -136,8 +138,6 @@ void Design::initialize(int now) {
 
     Reflectivity greyish = Reflectivity(grey);
 
-
-
 	// create textures
 
     // create vertex lists
@@ -154,9 +154,14 @@ void Design::initialize(int now) {
 
 	// audio ------------------------------------------------------------------
 
+	midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
+	midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
+
+	//midi->rotatey(3.14f);
+
     // Heads Up Display -------------------------------------------------------
 	
-	timerText = CreateText(RelRect(0, 0, 0.9f, 0.1f), L"");
+	timerText = CreateText(RelRect(0, 0, 10.9f, 10.1f), L"");
 
 	// reference time
     lastUpdate = now;
@@ -170,7 +175,7 @@ void Design::reset(int now) {
     coordinator->reset(now);
 
 	// audio ------------------------------------------------------------------
-
+	
 	// reset reference time ---------------------------------------------------
     //
     lastUpdate = now;
@@ -182,7 +187,8 @@ void Design::reset(int now) {
 void Design::update(int now) {
 
     coordinator->update(now);
-	timeLeft = TIME_LIMIT - (difftime(lastUpdate, startTime)/1000);
+
+	timeLeft = (int)(TIME_LIMIT - (difftime(lastUpdate, startTime)/1000));
 
 	int condition = maze->checkCondition();
 
@@ -210,6 +216,8 @@ void Design::update(int now) {
 	}
 
 	// audio ------------------------------------------------------------------
+
+    midi->update();
 
     // lighting ---------------------------------------------------------------
 
@@ -240,7 +248,6 @@ void Design::render() {
 
     // draw the scene and optionally the HUD
     display->beginDrawFrame();
-
     coordinator->render(OPAQUE_OBJECT);
     display->set(ALPHA_BLEND, true);
     coordinator->render(TRANSLUCENT_OBJECT);
@@ -265,6 +272,7 @@ void Design::render() {
 void Design::suspend() {
 
     coordinator->suspend();
+	midi->suspend();
 	display->suspend();
 }
 
@@ -273,6 +281,7 @@ void Design::suspend() {
 void Design::restore(int now) {
 
 	display->restore();
+	midi->restore(now);
     coordinator->restore(now);
     lastUpdate = now;
 }
@@ -288,7 +297,8 @@ void Design::release() {
 // destructor destroys the coordinator
 //
 Design::~Design() {
-
+	
+	if (midi) midi->Delete();
     coordinator->Delete();
     display->Delete();
     soundCard->Delete();

@@ -54,14 +54,14 @@ void Camera::update(int delta) {
 
    static bool jumping = false;
    static float last = 0;
-   static int lastdy = 0;
+   static float lastdy = 0;
 
-   int dx = 0, // pitch up/down
+   float dx = 0, // pitch up/down
         dy = 0, // yaw left/right
         dz = 0; // advance/retreat
-    int rx = 0,
+    float rx = 0,
         ry = 0;
-   float bounds = 0.2,
+   float bounds = 0.2f,
         boundingX = 0,
         boundingY = 0;
 
@@ -165,8 +165,8 @@ void Camera::update(int delta) {
           boundingX = -bounds;
       }
 
-      if (!maze->checkCollision((pos.x + displacement.x) / SCALE + boundingX, pos.z / SCALE)) translate(displacement.x, 0, 0);
-        if (!maze->checkCollision(pos.x / SCALE, (pos.z + displacement.z) / SCALE + boundingY)) translate(0, 0, displacement.z);
+      if (!maze->checkCollision((int)((pos.x + displacement.x) / (float)SCALE + boundingX), (int)(pos.z / (float)SCALE))) translate(displacement.x, 0.0f, 0.0f);
+      if (!maze->checkCollision((int)(pos.x / (float)SCALE), (int)((pos.z + displacement.z) / (float)SCALE + boundingY))) translate(0.0f, 0.0f, displacement.z);
     }
 
     // store the current viewpoint, heading and up direction

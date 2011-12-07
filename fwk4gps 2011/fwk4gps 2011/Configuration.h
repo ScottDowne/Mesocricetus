@@ -540,15 +540,16 @@ typedef enum ModelSound {
 #define SPRITE_G 255
 #define SPRITE_B 255
 
+
 // projection frustum properties
 //
-#define NEAR_CLIPPING 1.0f   // in coordinator units
+#define NEAR_CLIPPING 0.001f   // in coordinator units
 #define FAR_CLIPPING  2000.f // in coordinator units 
 #define FIELD_OF_VIEW 0.9f   // in radians
 
 // texture projection frustum properties
 //
-#define TEX_NEAR_CLIPPING 0.09f  // in coordinator units
+#define TEX_NEAR_CLIPPING 0.001f  // in coordinator units
 #define TEX_FAR_CLIPPING  500.f  // in coordinator units 
 #define TEX_FIELD_OF_VIEW 0.9f   // in radians
 
@@ -592,6 +593,7 @@ typedef struct RelRect {
 #define INTERIOR_CONE               0.67f // in radians
 #define SOUND_DISTANCE_FACTOR       1.0f  // metres per coordinator unit
 #define ATTENUATION_DISTANCE_FACTOR 10    // where attenuation begins
+
 
 // maze parameters
 //

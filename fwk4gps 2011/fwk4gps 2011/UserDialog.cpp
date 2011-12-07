@@ -596,8 +596,8 @@ bool UserDialog::saveUserChoices(void* hwndw) {
     if (ctr == CB_ERR)
         error(L"UserDialog::54 Controller selection failed");
     else {
-		int  trg, b = 0;
-		bool y, z, none;
+		int b = 0;
+		bool none;
         // retrieve the index of the selected controller
         int ic = SendDlgItemMessage(hwnd, IDC_CNT, CB_GETITEMDATA, ctr, 0L);
         none = ic == NO_CONTROLLER;
