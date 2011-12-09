@@ -146,7 +146,7 @@ void Design::initialize(int now) {
 
     // global ambient light: a little bit of light on everything, for when all 
 	// "lights are out"
-    context->set(GF_LT_BKGD, Vector(.2f, .2f, .2f));
+    context->set(GF_LT_BKGD, Vector(.02f, .02f, .02f));
 
     // Create far away point-source light
 	pointLight = CreatePointLight(grey, grey, white, 20000.0f, true);
