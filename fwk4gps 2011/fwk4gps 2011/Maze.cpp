@@ -87,7 +87,6 @@ void Maze::generateMazeWallV(int x1, int y1, int x2, int y2) {
 }
 
 void Maze::renderMaze() {
-	
 	iTexture* wall = CreateTexture(L"wall.PNG");
     Colour white(1, 1, 1);
     Colour yellow(0.7f, 0.7f, 0.0f);
@@ -126,14 +125,20 @@ void Maze::renderMaze() {
             
                 front = 1;
              }
-
-		     CreateObject(CreateFaces((float)x * SCALE, 0.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 1.0f * SCALE, ((float)MAZE_ARRAY_COL - y + 1) * SCALE, front, right, back, left, 0, 1, 2), &wallReflectivity)->attach(wall);
+      
+             iObject * obj = CreateObject(CreateFaces(-SCALE / 2.0f, -SCALE / 2.0f, -SCALE / 2.0f, 
+                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, front, right, back, left, 0, 1, 2), &wallReflectivity);
+             obj->attach(wall);
+             obj->setRadius(sqrtf(SCALE*SCALE/2));
+             obj->setPosition(Vector((float)x * SCALE + SCALE / 2.0f, SCALE / 2.0f,  ((float)MAZE_ARRAY_COL - y) * SCALE + SCALE / 2.0f));
           }
           else {
 
-			  CreateObject(CreateFaces((float)x * SCALE, -1.0f * SCALE, ((float)MAZE_ARRAY_COL - y) * SCALE, ((float)x + 1) * SCALE, 0.0f * SCALE, ((MAZE_ARRAY_COL - y) + 1.0f) * SCALE, 0, 0, 0, 0, 0, 1, 2), &wallReflectivity);//->attach(wall);
+            iObject * obj =  CreateObject(CreateFaces(-SCALE / 2.0f, -SCALE / 2.0f, -SCALE / 2.0f, 
+                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, 0, 0, 0, 0, 1, 0, 2), &wallReflectivity);//->attach(wall);
+            obj->setRadius(sqrtf(SCALE*SCALE/2));
+            obj->setPosition(Vector((float)x * SCALE + SCALE / 2.0f, SCALE / 2.0f,  ((float)MAZE_ARRAY_COL - y) * SCALE + SCALE / 2.0f));
           }
-          
        }
     }
 }
