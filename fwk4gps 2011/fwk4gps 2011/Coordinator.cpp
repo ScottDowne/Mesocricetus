@@ -323,6 +323,7 @@ void Coordinator::update(int now) {
 //
 void Coordinator::render(Category category) {
    D3DXPLANE frustum[6];
+
     Matrix projection = ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
     Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_HEAD), context->get(GF_CA_UP));
      
@@ -398,7 +399,7 @@ void Coordinator::render(Category category) {
                   {
                      D3DXVECTOR3 objPost = D3DXVECTOR3(object[i]->position().x,object[i]->position().y, object[i]->position().z );
 
-                     if ( D3DXPlaneDotCoord( &frustum[j], &objPost) + object[i]->getRadius() < 0 )
+                     if ( D3DXPlaneDotCoord(&frustum[j], &objPost) + object[i]->getRadius() < 0 )
                      {
                         inside = false;
 

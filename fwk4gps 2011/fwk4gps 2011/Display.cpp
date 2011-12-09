@@ -325,7 +325,7 @@ void Display::setupProjection() {
 	if (d3dd)
    {
 		d3dd->SetTransform(D3DTS_PROJECTION, (D3DXMATRIX*)&projection);
-      //d3dd->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
+      d3dd->SetRenderState(D3DRS_FILLMODE,D3DFILL_WIREFRAME);
    }
 }
 
