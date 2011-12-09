@@ -75,7 +75,8 @@ void APIText::setup(const void* text) {
     else if (f & TEXT_MIDDLE) flags |= DT_VCENTER;
 
     // retrieve an API interface to the font object 
-    if (FAILED(D3DXCreateFont(d3dd, 15, 0, FW_NORMAL, 0, 0, 
+    if (FAILED(
+     D3DXCreateFont(d3dd, 60, 0, FW_EXTRABOLD, 0, 0, 
      DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 
      FF_DONTCARE | DEFAULT_PITCH, L"ARIAL", &d3dfont)))
         error(L"APIText::10 Failed to retrieve the font interface");
