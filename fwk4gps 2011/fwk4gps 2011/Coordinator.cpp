@@ -345,7 +345,8 @@ void Coordinator::render(Category category) {
 			        sound[i]->implement(lastUpdate);
 
             break;
-
+        
+        case TRANSLUCENT_OBJECT:
         case OPAQUE_OBJECT:
             // Left plane
             frustum[0].a = viewProjection.m14 + viewProjection.m11;
@@ -399,7 +400,7 @@ void Coordinator::render(Category category) {
                   {
                      D3DXVECTOR3 objPost = D3DXVECTOR3(object[i]->position().x,object[i]->position().y, object[i]->position().z );
 
-                     if (D3DXPlaneDotCoord(&frustum[j], &objPost) < -4.0f)
+                     if (D3DXPlaneDotCoord(&frustum[j], &objPost) <= -object[i]->getRadius())
                      {
                         inside = false;
 
