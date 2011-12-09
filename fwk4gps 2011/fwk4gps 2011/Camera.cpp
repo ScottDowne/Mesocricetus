@@ -53,11 +53,11 @@ Camera::Camera(iContext* c, Maze* m) : context(c) {
 void Camera::update(int delta) {
 
    static bool jumping = false;
-   static float last = 0;
-   static float lastdy = 0;
+   static float time = 0;
+   static float height = 0;
 
    float dx = 0, // pitch up/down
-        dy = 0, // yaw left/right
+        dy = 0, // jump
         dz = 0; // advance/retreat
     float rx = 0,
         ry = 0;
@@ -103,15 +103,16 @@ void Camera::update(int delta) {
         rx += delta;
 	if ((context->pressed(CAM_JUMP) || context->pressed(A_BUTTON)) && jumping == false)
     {
-      last = 0;
-      lastdy = 0;
+      time = 0;
       jumping = true;
     }
 
     if (jumping)
     {
-       last += (delta/300.0f);
-       dy += SCALE * sinf(3.1415927f * last / 2);
+       time += delta / 1000.0f;
+       dy = height;
+       height = 30 * time  - 9.8f * time * time; // s = u*t + g*t*t
+       dy = height - dy;
     }
 
     // adjust camera orientation
@@ -136,15 +137,14 @@ void Camera::update(int delta) {
       {
          Vector pos = position();
 
-         if (lastdy < 0 && dy > 0)
+         if (dy + pos.y < 4.0f)
          {
             translate(0, 4.0f - pos.y, 0);
             jumping = false;
          }
          else
          {
-            translate(0, dy * 0.09f, 0);
-            lastdy = dy;
+            translate(0, dy, 0);
          }
       }
 
