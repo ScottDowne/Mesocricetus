@@ -441,4 +441,16 @@ inline Matrix orthographic(int w, int h) {
                      -1,    -1,  0, 1);
 }
 
+// normalize normalizes the plane out and 
+
+inline void normalize(Plane& plane)
+{
+   float inverse_length = 1.0f / plane.n.length();
+
+   plane.n.x *= inverse_length;
+   plane.n.y *= inverse_length;
+   plane.n.z *= inverse_length;
+   plane.d *= inverse_length;
+}
+
 #endif

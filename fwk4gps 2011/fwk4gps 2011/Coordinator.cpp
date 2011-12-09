@@ -322,7 +322,7 @@ void Coordinator::update(int now) {
 // render draws the coordinator elements for the specified Category
 //
 void Coordinator::render(Category category) {
-   D3DXPLANE frustum[6];
+   Plane frustum [6];
 
     Matrix projection = ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
     Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP));
@@ -349,45 +349,33 @@ void Coordinator::render(Category category) {
         case TRANSLUCENT_OBJECT:
         case OPAQUE_OBJECT:
             // Left plane
-            frustum[0].a = viewProjection.m14 + viewProjection.m11;
-            frustum[0].b = viewProjection.m24 + viewProjection.m21;
-            frustum[0].c = viewProjection.m34 + viewProjection.m31;
+            frustum[0].n = Vector (viewProjection.m14 + viewProjection.m11, viewProjection.m24 + viewProjection.m21, viewProjection.m34 + viewProjection.m31);
             frustum[0].d = viewProjection.m44 + viewProjection.m41;
  
             // Right plane
-            frustum[1].a = viewProjection.m14 - viewProjection.m11;
-            frustum[1].b = viewProjection.m24 - viewProjection.m21;
-            frustum[1].c = viewProjection.m34 - viewProjection.m31;
+            frustum[1].n = Vector (viewProjection.m14 - viewProjection.m11, viewProjection.m24 - viewProjection.m21, viewProjection.m34 - viewProjection.m31);
             frustum[1].d = viewProjection.m44 - viewProjection.m41;
  
             // Top plane
-            frustum[2].a = viewProjection.m14 - viewProjection.m12;
-            frustum[2].b = viewProjection.m24 - viewProjection.m22;
-            frustum[2].c = viewProjection.m34 - viewProjection.m32;
+            frustum[2].n = Vector (viewProjection.m14 - viewProjection.m12, viewProjection.m24 - viewProjection.m22, viewProjection.m34 - viewProjection.m32);
             frustum[2].d = viewProjection.m44 - viewProjection.m42;
  
             // Bottom plane
-            frustum[3].a = viewProjection.m14 + viewProjection.m12;
-            frustum[3].b = viewProjection.m24 + viewProjection.m22;
-            frustum[3].c = viewProjection.m34 + viewProjection.m32;
+            frustum[3].n = Vector (viewProjection.m14 + viewProjection.m12, viewProjection.m24 + viewProjection.m22, viewProjection.m34 + viewProjection.m32);
             frustum[3].d = viewProjection.m44 + viewProjection.m42;
  
             // Near plane
-            frustum[4].a = viewProjection.m13;
-            frustum[4].b = viewProjection.m23;
-            frustum[4].c = viewProjection.m33;
+            frustum[4].n = Vector (viewProjection.m13, viewProjection.m23, viewProjection.m33);
             frustum[4].d = viewProjection.m43;
  
             // Far plane
-            frustum[5].a = viewProjection.m14 - viewProjection.m13;
-            frustum[5].b = viewProjection.m24 - viewProjection.m23;
-            frustum[5].c = viewProjection.m34 - viewProjection.m33;
+            frustum[5].n = Vector (viewProjection.m14 - viewProjection.m13, viewProjection.m24 - viewProjection.m23, viewProjection.m34 - viewProjection.m33);
             frustum[5].d = viewProjection.m44 - viewProjection.m43;
  
             // Normalize planes
             for ( int i = 0; i < 6; i++ )
             {
-               D3DXPlaneNormalize( &frustum[i], &frustum[i] );
+               normalize(frustum[i]);
             }
 
             for (unsigned i = 0; i < object.size(); i++)

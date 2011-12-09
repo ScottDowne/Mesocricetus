@@ -130,6 +130,7 @@ Matrix rotate(const Vector& axis, float rad);
 struct Plane {
     Vector n;
     float  d;
+    Plane() : n(const Vector(0, 0, 0)), d(0) {}
     Plane(const Vector& v, float c) : n(v), d(c) {}
     bool onPositiveSide(const Vector& v) { return dot(n, v) + d < 0; }
     Vector normal() const { return n; }
