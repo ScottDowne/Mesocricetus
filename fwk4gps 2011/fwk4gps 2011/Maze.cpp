@@ -127,7 +127,7 @@ void Maze::renderMaze() {
              }
       
              iObject * obj = CreateObject(CreateFaces(-SCALE / 2.0f, -SCALE / 2.0f, -SCALE / 2.0f, 
-                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, front, right, back, left, 0, 1, 2), &wallReflectivity);
+                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, front, right, back, left, 0, 1, 4), &wallReflectivity);
              obj->attach(wall);
              obj->setRadius(SCALE * sqrtf(3) / 2.0f);
              obj->translate(x * SCALE + SCALE / 2.0f, SCALE / 2.0f, (MAZE_ARRAY_COL - y) * SCALE + SCALE / 2.0f);
@@ -135,9 +135,9 @@ void Maze::renderMaze() {
           else {
 
             iObject * obj =  CreateObject(CreateFaces(-SCALE / 2.0f, -SCALE / 2.0f, -SCALE / 2.0f, 
-                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, 0, 0, 0, 0, 1, 0, 2), &wallReflectivity);//->attach(wall);
+                              SCALE / 2.0f, SCALE / 2.0f, SCALE / 2.0f, 0, 0, 0, 0, 0, 1, 4), &wallReflectivity);//->attach(wall);
             obj->setRadius(SCALE * sqrtf(3) / 2.0f);
-            obj->translate(x * SCALE + SCALE / 2.0f, SCALE / 2.0f, (MAZE_ARRAY_COL - y) * SCALE + SCALE / 2.0f);
+            obj->translate(x * SCALE + SCALE / 2.0f, -SCALE / 2.0f, (MAZE_ARRAY_COL - y) * SCALE + SCALE / 2.0f);
           }
        }
     }
