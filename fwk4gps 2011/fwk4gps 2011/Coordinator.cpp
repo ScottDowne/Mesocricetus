@@ -325,7 +325,7 @@ void Coordinator::render(Category category) {
    D3DXPLANE frustum[6];
 
     Matrix projection = ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
-    Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_HEAD), context->get(GF_CA_UP));
+    Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP));
      
     Matrix viewProjection = view * projection;
     
@@ -399,35 +399,13 @@ void Coordinator::render(Category category) {
                   {
                      D3DXVECTOR3 objPost = D3DXVECTOR3(object[i]->position().x,object[i]->position().y, object[i]->position().z );
 
-                     if ( D3DXPlaneDotCoord(&frustum[j], &objPost) + object[i]->getRadius() < 0 )
+                     if (D3DXPlaneDotCoord(&frustum[j], &objPost) < -4.0f)
                      {
                         inside = false;
 
                         break;
                      }
                   }
-
-                  /*for( int p = 0; p < 6; p++ )
-                  {
-                     if( frustum[p][0] * (object[i]->position().x - SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y - SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z - SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x + SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y - SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z - SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x - SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y + SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z - SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x + SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y + SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z - SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x - SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y - SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z + SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x + SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y - SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z + SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x - SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y + SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z + SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-                     if( frustum[p][0] * (object[i]->position().x + SCALE / 2.0f) + frustum[p][1] * (object[i]->position().y + SCALE / 2.0f) + frustum[p][2] * (object[i]->position().z + SCALE / 2.0f) + frustum[p][3] > 0 )
-                        break;
-
-                     inside = false;
-                  }*/
 
                   if (inside)
                      object[i]->draw();
