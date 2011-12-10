@@ -322,7 +322,7 @@ void Coordinator::update(int now) {
 // render draws the coordinator elements for the specified Category
 //
 void Coordinator::render(Category category) {
-   Plane frustum [6];
+    Plane frustum [6];
 
     Matrix projection = ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
     Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP));
@@ -386,9 +386,7 @@ void Coordinator::render(Category category) {
                   
                   for ( int j = 0; j < 6; j++ )
                   {
-                     D3DXVECTOR3 objPost = D3DXVECTOR3(object[i]->position().x,object[i]->position().y, object[i]->position().z );
-
-                     if (D3DXPlaneDotCoord(&frustum[j], &objPost) <= -object[i]->getRadius())
+                     if (frustum[j].dotCoord(object[i]->position()) <= -object[i]->getRadius())
                      {
                         inside = false;
 
