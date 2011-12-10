@@ -20,6 +20,8 @@
 #include "Graphic.h"       // for Graphic::isCoordinatedBy
 #include "Text.h"          // for Text::isCoordinatedBy
 #include "ModelSettings.h" // for coordinator macros
+#include "MathDefinitions.h" // for matrix operations
+#include "DirectAPISettings.h" // for graphics api headers
 
 //-------------------------------- Coordinator --------------------------------------
 //
@@ -320,7 +322,13 @@ void Coordinator::update(int now) {
 // render draws the coordinator elements for the specified Category
 //
 void Coordinator::render(Category category) {
+    Plane frustum [6];
 
+    Matrix projection = ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
+    Matrix view = ::view(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP));
+     
+    Matrix viewProjection = view * projection;
+    
     switch (category) {
         case ALL_OBJECTS:
             // draw all objects
@@ -328,12 +336,71 @@ void Coordinator::render(Category category) {
 		        if (object[i])
 			        object[i]->draw();
             }
+
             break;
+
         case SOUND:
             for (unsigned i = 0; i < sound.size(); i++)
 		        if (sound[i]) 
 			        sound[i]->implement(lastUpdate);
+
             break;
+        
+        case TRANSLUCENT_OBJECT:
+        case OPAQUE_OBJECT:
+            // Left plane
+            frustum[0].n = Vector (viewProjection.m14 + viewProjection.m11, viewProjection.m24 + viewProjection.m21, viewProjection.m34 + viewProjection.m31);
+            frustum[0].d = viewProjection.m44 + viewProjection.m41;
+ 
+            // Right plane
+            frustum[1].n = Vector (viewProjection.m14 - viewProjection.m11, viewProjection.m24 - viewProjection.m21, viewProjection.m34 - viewProjection.m31);
+            frustum[1].d = viewProjection.m44 - viewProjection.m41;
+ 
+            // Top plane
+            frustum[2].n = Vector (viewProjection.m14 - viewProjection.m12, viewProjection.m24 - viewProjection.m22, viewProjection.m34 - viewProjection.m32);
+            frustum[2].d = viewProjection.m44 - viewProjection.m42;
+ 
+            // Bottom plane
+            frustum[3].n = Vector (viewProjection.m14 + viewProjection.m12, viewProjection.m24 + viewProjection.m22, viewProjection.m34 + viewProjection.m32);
+            frustum[3].d = viewProjection.m44 + viewProjection.m42;
+ 
+            // Near plane
+            frustum[4].n = Vector (viewProjection.m13, viewProjection.m23, viewProjection.m33);
+            frustum[4].d = viewProjection.m43;
+ 
+            // Far plane
+            frustum[5].n = Vector (viewProjection.m14 - viewProjection.m13, viewProjection.m24 - viewProjection.m23, viewProjection.m34 - viewProjection.m33);
+            frustum[5].d = viewProjection.m44 - viewProjection.m43;
+ 
+            // Normalize planes
+            for ( int i = 0; i < 6; i++ )
+            {
+               normalize(frustum[i]);
+            }
+
+            for (unsigned i = 0; i < object.size(); i++)
+            {
+               if (object[i] && object[i]->belongsTo(category))
+               {
+                  bool inside = TRUE;
+                  
+                  for ( int j = 0; j < 6; j++ )
+                  {
+                     if (frustum[j].dotCoord(object[i]->position()) <= -object[i]->getRadius())
+                     {
+                        inside = false;
+
+                        break;
+                     }
+                  }
+
+                  if (inside)
+                     object[i]->draw();
+               }
+            }
+
+            break;
+
         default:
             for (unsigned i = 0; i < object.size(); i++) {
 		        if (object[i] && object[i]->belongsTo(category))
