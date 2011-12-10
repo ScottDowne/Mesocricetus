@@ -316,17 +316,6 @@ PrimitiveSet::~PrimitiveSet() {
 //
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz) {
-   // locate centroid at origin
-   float x = (minx + maxx) / 2;
-   float y = (miny + maxy) / 2;
-   float z = (minz + maxz) / 2;
-   minx -= x;
-   miny -= y;
-   minz -= z;
-   maxx -= x;
-   maxy -= y;
-   maxz -= z;
-
    return CreateFaces(minx, miny, minz, maxx, maxy, maxz, 1,1,1,1,1,1);
 }
 
@@ -339,6 +328,17 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
 
 iGraphic* CreateFaces(float minx, float miny, float minz, float maxx, 
  float maxy, float maxz, int front, int right, int back, int left, int bottom, int top, int subdivide) {
+
+    // locate centroid at origin
+   float x = (minx + maxx) / 2;
+   float y = (miny + maxy) / 2;
+   float z = (minz + maxz) / 2;
+   minx -= x;
+   miny -= y;
+   minz -= z;
+   maxx -= x;
+   maxy -= y;
+   maxz -= z;
 
    int triangles = 2;
 
