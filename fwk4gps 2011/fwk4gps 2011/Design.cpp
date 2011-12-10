@@ -62,6 +62,7 @@ Design::Design(iContext* c) : context(c) {
 	timerText = NULL;
 
 	midi = NULL;
+   jump = NULL;
 
     //maze
 	maze;
@@ -156,10 +157,10 @@ void Design::initialize(int now) {
     spotLight->attachTo(camera);
 	// audio ------------------------------------------------------------------
 
-	midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
-	midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
+	//midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
+	//midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
 
-	//midi->rotatey(3.14f);
+   jump = CreateSound(L"yippe.wav", GLOBAL_SOUND, false, false);
 
     // Heads Up Display -------------------------------------------------------
 	
@@ -187,6 +188,8 @@ void Design::reset(int now) {
 // according to the keys pressed
 //
 void Design::update(int now) {
+   static bool jumping = false;
+   static int delta;
 
     coordinator->update(now);
 
@@ -219,7 +222,7 @@ void Design::update(int now) {
 
 	// audio ------------------------------------------------------------------
 
-    midi->update();
+    //midi->update();
 
     // lighting ---------------------------------------------------------------
 
@@ -229,6 +232,22 @@ void Design::update(int now) {
 		} else {
 			maze->toggleCollision(true);
 		}
+
+   if (jumping)
+   {
+      if (now - delta > 3100)
+      {
+         jumping = false;
+      }
+   }
+
+   if (context->pressed(CAM_JUMP) && !jumping)
+   {
+      delta = now;
+      iSound* clone = jump->clone();
+      clone->play(now);
+      jumping = true;
+   }
 
     // reference time
     lastUpdate = now;
@@ -274,7 +293,8 @@ void Design::render() {
 void Design::suspend() {
 
     coordinator->suspend();
-	midi->suspend();
+	if (midi) midi->suspend();
+   if (jump) jump->suspend();
 	display->suspend();
 }
 
@@ -283,7 +303,8 @@ void Design::suspend() {
 void Design::restore(int now) {
 
 	display->restore();
-	midi->restore(now);
+	if (midi) midi->restore(now);
+   if (jump) jump->restore(now);
     coordinator->restore(now);
     lastUpdate = now;
 }
@@ -301,6 +322,7 @@ void Design::release() {
 Design::~Design() {
 	
 	if (midi) midi->Delete();
+   if (jump) jump->Delete();
     coordinator->Delete();
     display->Delete();
     soundCard->Delete();
