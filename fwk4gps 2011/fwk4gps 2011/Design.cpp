@@ -124,13 +124,12 @@ void Design::initialize(int now) {
     // cameras ----------------------------------------------------------------
 
     // camera at a distance - in lhs coordinates
-    (camera = CreateCamera(context, maze))->translate(0, 0, 0);
+    (camera = CreateCamera(context, maze))->translate((19 + 0.5) * SCALE, 0.5 * SCALE, 1.5 * SCALE);
     camera->setRadius(17.8f);
-	camera->translate((19 + 0.5) * SCALE, 0.5 * SCALE, 1.5 * SCALE);
 	
     // coordinator ------------------------------------------------------------------
 
-    Colour white(1, 1, 1);
+    Colour wallColor(0.6f, 0.6f, 0.45f);
     Colour yellow(0.7f, 0.7f, 0.0f);
     Colour grey(0.7f, 0.7f, 0.7f);
     Colour turquoise(0, 0.8f, 0.6f);
@@ -139,19 +138,22 @@ void Design::initialize(int now) {
     Reflectivity greyish = Reflectivity(grey);
 
 	// create textures
-
+    
     // create vertex lists
 
     // lighting ---------------------------------------------------------------
 
     // global ambient light: a little bit of light on everything, for when all 
 	// "lights are out"
-    context->set(GF_LT_BKGD, Vector(.02f, .02f, .02f));
+    context->set(GF_LT_BKGD, Vector(.2f, .2f, .2f));
 
     // Create far away point-source light
-	pointLight = CreatePointLight(grey, grey, white, 20000.0f, true);
-    pointLight->translate(500.f, 1000.f, 100.f * MODEL_Z_AXIS);
-
+	 //pointLight = CreatePointLight(grey, grey, white, 20000.0f, true);
+    //pointLight->translate(500.f, 1000.f, 100.f * MODEL_Z_AXIS);
+    iLight * spotLight = CreateSpotLight(wallColor, wallColor, wallColor, 200.0f, true, 1, 0.00005f,
+      0.00001f, .60f, 0, 0.9f);
+    spotLight->translate((19 + 0.5) * SCALE, 0.5 * SCALE, (1.5 * SCALE) - 5 );
+    spotLight->attachTo(camera);
 	// audio ------------------------------------------------------------------
 
 	midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
