@@ -138,6 +138,24 @@ struct Plane {
     float constant() const { return d; }
 };
 
+void normalize(Plane& p);
+
+struct Frustum 
+{
+   Plane planes[6];
+   Frustum(const Vector& camera_position, const Vector& camera_heading, const Vector& camera_up,
+       float fieldOfView, float aspect, float near_clip, float far_clip);
+   
+   bool sphereInside(const Vector& centre, float radius)
+   {
+      for ( int i = 0; i < 6; i++ )
+      if (planes[i].dotCoord(centre) <= -radius)
+         return false;
+
+      return true;
+   }
+};
+
 //-------------------------------- Colour -------------------------------------
 //
 struct Colour {
