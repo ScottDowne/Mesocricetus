@@ -157,8 +157,8 @@ void Design::initialize(int now) {
     spotLight->attachTo(camera);
 	// audio ------------------------------------------------------------------
 
-	//midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
-	//midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
+	midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
+	midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
 
    jump = CreateSound(L"yippe.wav", GLOBAL_SOUND, false, false);
 
