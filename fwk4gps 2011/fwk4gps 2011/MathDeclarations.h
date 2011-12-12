@@ -143,8 +143,7 @@ void normalize(Plane& p);
 struct Frustum 
 {
    Plane planes[6];
-   Frustum(const Vector& camera_position, const Vector& camera_heading, const Vector& camera_up,
-       float fieldOfView, float aspect, float near_clip, float far_clip);
+   Frustum(const Matrix& view, const Matrix& projection);
    
    bool sphereInside(const Vector& centre, float radius)
    {

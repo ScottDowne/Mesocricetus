@@ -454,11 +454,9 @@ inline void normalize(Plane& plane)
 }
 
 // extract view frustum from view point and projection matrices
-inline Frustum::Frustum(const Vector& camera_position, const Vector& camera_heading, const Vector& camera_up,
-       float fieldOfView, float aspect, float near_clip, float far_clip)
+inline Frustum::Frustum(const Matrix& view, const Matrix& projection)
 {
-   Matrix viewProjection = view(camera_position, camera_heading, camera_up) * 
-                           projection(fieldOfView, aspect, near_clip, far_clip);
+   Matrix viewProjection = view * projection;
 
    Vector centre = Vector(viewProjection.m14, viewProjection.m24, viewProjection.m34);
    Vector width = Vector(viewProjection.m11, viewProjection.m21, viewProjection.m31);
