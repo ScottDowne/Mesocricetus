@@ -320,8 +320,8 @@ void Coordinator::update(int now) {
 // render draws the coordinator elements for the specified Category
 //
 void Coordinator::render(Category category) {
-    Frustum frustum(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP),
-                    context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR));
+    Frustum frustum(::view(context->get(GF_CA_POSN), context->get(GF_CA_POSN) + context->get(GF_CA_HEAD), context->get(GF_CA_UP)),
+                    ::projection(context->get(GF_FR_FOV), context->get(GF_FR_ASP), context->get(GF_FR_NEAR), context->get(GF_FR_FAR)));
     
     switch (category) {
         case ALL_OBJECTS:
