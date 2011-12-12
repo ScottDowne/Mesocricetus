@@ -441,16 +441,55 @@ inline Matrix orthographic(int w, int h) {
                      -1,    -1,  0, 1);
 }
 
-// normalize normalizes the plane out and 
+// normalize normalizes the plane out
 
 inline void normalize(Plane& plane)
 {
-   float inverse_length = 1.0f / plane.n.length();
+  float length = plane.n.length();
 
-   plane.n.x *= inverse_length;
-   plane.n.y *= inverse_length;
-   plane.n.z *= inverse_length;
-   plane.d *= inverse_length;
+   plane.n.x /= length;
+   plane.n.y /= length;
+   plane.n.z /= length;
+   plane.d   /= length;
 }
 
+// extract view frustum from view point and projection matrices
+inline Frustum::Frustum(const Vector& camera_position, const Vector& camera_heading, const Vector& camera_up,
+       float fieldOfView, float aspect, float near_clip, float far_clip)
+{
+   Matrix viewProjection = view(camera_position, camera_heading, camera_up) * 
+                           projection(fieldOfView, aspect, near_clip, far_clip);
+
+   Vector centre = Vector(viewProjection.m14, viewProjection.m24, viewProjection.m34);
+   Vector width = Vector(viewProjection.m11, viewProjection.m21, viewProjection.m31);
+   Vector height = Vector(viewProjection.m12, viewProjection.m22, viewProjection.m32);
+   
+   // Left plane
+   planes[0].n = centre + width;
+   planes[0].d = viewProjection.m44 + viewProjection.m41;
+ 
+   // Right plane
+   planes[1].n = centre - width;
+   planes[1].d = viewProjection.m44 - viewProjection.m41;
+ 
+   // Top plane
+   planes[2].n = centre - height;
+   planes[2].d = viewProjection.m44 - viewProjection.m42;
+ 
+   // Bottom plane
+   planes[3].n = centre + height;
+   planes[3].d = viewProjection.m44 + viewProjection.m42;
+ 
+   // Near plane
+   planes[4].n = Vector (viewProjection.m13, viewProjection.m23, viewProjection.m33);
+   planes[4].d = viewProjection.m43;
+ 
+   // Far plane
+   planes[5].n = centre - Vector (viewProjection.m13, viewProjection.m23, viewProjection.m33);
+   planes[5].d = viewProjection.m44 - viewProjection.m43;
+ 
+   // Normalize planes
+   for ( int i = 0; i < 6; i++ )
+      normalize(planes[i]);
+}
 #endif
