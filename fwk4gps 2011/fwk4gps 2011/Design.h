@@ -37,15 +37,23 @@ class Design : public iDesign {
     //std::list<iObject*> * mazeList;   //points to the maze
 	
     iCamera*  camera;          // points to the camera
-	
-    iText*  timerText;
+
+   // text
+   iText*  timerText;
+   wchar_t timerString[MAX_DESC + 1];
+   int startTime;
+   int timeLeft;
+
+   iText* meterText;
+   wchar_t meterString[31];
+   int maxDistance;
+
+   // sounds
    iSound* midi;
    iSound* jump;
 
-    int lastUpdate;      // time that the coordinator was last updated
-	int startTime;
-	int timeLeft;
-	wchar_t timerString[MAX_DESC + 1];
+   int lastUpdate;      // time that the coordinator was last updated
+		
 	bool gameOver;
 
 	Maze* maze;

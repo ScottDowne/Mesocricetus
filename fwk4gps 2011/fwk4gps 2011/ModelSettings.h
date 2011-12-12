@@ -68,7 +68,7 @@
 // hud location within window [0,1]
 #define HUD_X     0.01f
 #define HUD_Y     0.01f
-#define HUD_W     0.43f
+#define HUD_W     0.85f
 #define HUD_H     0.43f
 // hud background degree of transparency [\x00,\xff]
 #define HUD_TEX_ALPHA '\x20'
