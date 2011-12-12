@@ -490,11 +490,4 @@ inline Frustum::Frustum(const Matrix& view, const Matrix& projection)
    for ( int i = 0; i < 6; i++ )
       normalize(planes[i]);
 }
-inline Frustum::Frustum(const Vector& camera_position, const Vector& camera_heading, const Vector& camera_up,
-       float fieldOfView, float aspect, float near_clip, float far_clip)
-{
-   Matrix viewProjection = view(camera_position, camera_heading, camera_up) * 
-                           projection(fieldOfView, aspect, near_clip, far_clip);
-
-}
 #endif
