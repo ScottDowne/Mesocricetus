@@ -60,6 +60,7 @@ Design::Design(iContext* c) : context(c) {
 
     // pointers to the text items
 	timerText = NULL;
+   meterText = NULL;
 
 	midi = NULL;
    jump = NULL;
@@ -125,7 +126,7 @@ void Design::initialize(int now) {
     // cameras ----------------------------------------------------------------
 
     // camera at a distance - in lhs coordinates
-    (camera = CreateCamera(context, maze))->translate((19 + 0.5) * SCALE, 0.5 * SCALE, 1.5 * SCALE);
+    (camera = CreateCamera(context, maze))->translate((19 + 0.5f) * SCALE, 0.5f * SCALE, 1.5f * SCALE);
     camera->setRadius(17.8f);
 	
     // coordinator ------------------------------------------------------------------
@@ -153,20 +154,23 @@ void Design::initialize(int now) {
     //pointLight->translate(500.f, 1000.f, 100.f * MODEL_Z_AXIS);
     iLight * spotLight = CreateSpotLight(wallColor, wallColor, wallColor, 200.0f, true, 1, 0.00005f,
       0.00001f, .60f, 0, 0.9f);
-    spotLight->translate((19 + 0.5) * SCALE, 0.5 * SCALE, (1.5 * SCALE) - 5 );
+    spotLight->translate((19 + 0.5f) * SCALE, 0.5f * SCALE, (1.5f * SCALE) - 5 );
     spotLight->attachTo(camera);
 	// audio ------------------------------------------------------------------
 
 	midi = CreateSound( L"Crickets (by reinsamba) .xwma", LOCAL_SOUND, true, true, 360 );
-	midi->translate((1.5) * SCALE, 0.5 * SCALE, 21.5 * SCALE);
+	midi->translate((1.5f) * SCALE, 0.5f * SCALE, 21.5f * SCALE);
 
    jump = CreateSound(L"yippe.wav", GLOBAL_SOUND, false, false);
 
     // Heads Up Display -------------------------------------------------------
 	
-	timerText = CreateText(RelRect(0, 0, 10.9f, 10.1f), L"");
+	timerText = CreateText(RelRect(0.0f, 0.0f, 0.42f, 0.2f), L"");
+   meterText = CreateText(RelRect(0.0f, 0.2f, 1.00f, 0.43f), L"");
 
-	// reference time
+   maxDistance = (Vector((1.5f) * SCALE, 0.5f * SCALE, 21.5f * SCALE) - Vector((19 + 0.5f) * SCALE, 0.5f * SCALE, 1.5f * SCALE)).length();
+   strcpy(meterString, L" ", 1);
+      // reference time
     lastUpdate = now;
 }
 
@@ -190,8 +194,9 @@ void Design::reset(int now) {
 void Design::update(int now) {
    static bool jumping = false;
    static int delta;
+   static int distanceToEnd = 0;
 
-    coordinator->update(now);
+   coordinator->update(now);
 
 	timeLeft = (int)(TIME_LIMIT - (difftime(lastUpdate, startTime)/1000));
 
@@ -214,20 +219,29 @@ void Design::update(int now) {
 				startTime = now;
 				sprintf(timerString, timeLeft, L"");
 			} else {
-		
 			  sprintf(timerString, timeLeft, L"");
 			}
 		}
+
+      int newDistance = ((maxDistance - (Vector(1.5f * SCALE, 0, 21.5f * SCALE) - context->get(GF_CA_POSN)).length())/maxDistance) * 30;
+
+      if (newDistance != distanceToEnd)
+      {
+         distanceToEnd = newDistance;
+         strcpy(meterString, L"------------------------------", 30);
+         meterString[distanceToEnd] = L'*';
+         meterString[30] = '\0';
+      }
 	}
 
 	// audio ------------------------------------------------------------------
 
-    //midi->update();
+   midi->update();
 
-    // lighting ---------------------------------------------------------------
+   // lighting ---------------------------------------------------------------
 
-    // coordinator ------------------------------------------------------------------
-	    if (context->pressed(TOGGLE_COLLISION) || context->pressed(X_BUTTON)) {
+   // coordinator ------------------------------------------------------------------
+	if (context->pressed(TOGGLE_COLLISION) || context->pressed(X_BUTTON)) {
           maze->toggleCollision(false);
 		} else {
 			maze->toggleCollision(true);
@@ -283,6 +297,13 @@ void Design::render() {
             timerText->set(timerString);
             timerText->draw();
         }
+
+        if (meterText)
+        {
+           meterText->set(meterString);
+           meterText->draw();
+        }
+
         display->endDraw();
     }
     display->endDrawFrame();
