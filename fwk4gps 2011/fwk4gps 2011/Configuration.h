@@ -502,8 +502,8 @@ typedef enum ModelSound {
 
 // Text display colour [0,255]
 //
-#define TEXT_R 0
-#define TEXT_G 0
+#define TEXT_R 255
+#define TEXT_G 175
 #define TEXT_B 0
 #define TEXT_A 255
 
