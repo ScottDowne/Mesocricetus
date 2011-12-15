@@ -1,0 +1,7 @@
+1. Added CreateFaces that allows rendering of specified faces of a cube
+2. Added subdivision of a quadrilateral to increase triangle count per face
+3. Added spotlight to scene
+4. Added jumping soundFX
+5. Added view frustum culling
+6. Added jumping
+7. Added position tracker to HUD
